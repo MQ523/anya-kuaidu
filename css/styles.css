@@ -246,6 +246,15 @@ button {
   margin: 8px 12px 16px;
 }
 
+.kw {
+  color: #9a6408;
+  background: #ffe08a;
+  border-radius: 0.25em;
+  padding: 0 0.08em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 .pinyin {
   min-height: 1.4em;
   margin: 0 0 8px;

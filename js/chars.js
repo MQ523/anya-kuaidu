@@ -203,6 +203,28 @@ const LESSONS = [
       "爸爸和兒子玩遊戲。",
     ],
   },
+  {
+    id: 11,
+    title: "課後複習",
+    chars: [],
+    phrases: [
+      "寶貝", "學習", "上學", "看書", "看戲", "游戲", "生字", "生氣", "氣人",
+      "十月", "十日", "十天", "好孩子", "小朋友", "下雨天", "好朋友",
+      "小學生", "中學生", "大學生", "唱兒歌", "小紅花",
+    ],
+    sentences: [
+      "小寶是愛學習的好孩子",
+      "爺爺愛看書，奶奶愛看戲，爸爸愛看書，媽媽愛唱歌。",
+      "我愛爺爺、奶奶、爸爸和媽媽。我是大家的好寶貝。",
+      "心心和小葉子是好朋友。",
+      "我愛看書，我愛學習。我是聰明的孩子。",
+      "下雨天，我和明明在我家看書。",
+      "天上有太陽、月亮、星星和白雲；地上有土、石、山、水、花和樹木。",
+      "不愛生氣、不愛哭的孩子是好孩子。我愛笑，我是好孩子。",
+      "我的好朋友聰聰是小學生，聰聰天天上學。",
+      "爸爸的爸爸是爺爺。爸爸是爺爺的兒子，我是爸爸的兒子。",
+    ],
+  },
 ];
 
 function allChars() {
@@ -215,6 +237,68 @@ function selectedLessons(filter) {
   if (filter === "mix" || filter === "review") return LESSONS;
   const lesson = LESSONS.find((item) => item.id === Number(filter));
   return lesson ? [lesson] : LESSONS;
+}
+
+function lessonsUpTo(filter) {
+  if (filter === "mix" || filter === "review") return LESSONS;
+  const id = Number(filter);
+  return LESSONS.filter((lesson) => lesson.id <= id);
+}
+
+function allBookPhrases(filter) {
+  const unique = [];
+  lessonsUpTo(filter).forEach((lesson) => {
+    (lesson.phrases || []).forEach((phrase) => {
+      if (!unique.includes(phrase)) unique.push(phrase);
+    });
+  });
+  return unique.sort((a, b) => b.length - a.length);
+}
+
+function taughtChars(filter) {
+  const set = new Set();
+  lessonsUpTo(filter).forEach((lesson) => {
+    lesson.chars.forEach((item) => set.add(item.z));
+  });
+  return set;
+}
+
+function phrasesForChar(z) {
+  return LESSONS.flatMap((lesson) => lesson.phrases || []).filter((phrase) => phrase.includes(z));
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function highlightHtml(text, filter) {
+  const phrases = allBookPhrases(filter);
+  const chars = taughtChars(filter);
+  let html = "";
+  let i = 0;
+  while (i < text.length) {
+    let hit = "";
+    for (let p = 0; p < phrases.length; p += 1) {
+      if (text.startsWith(phrases[p], i)) {
+        hit = phrases[p];
+        break;
+      }
+    }
+    if (hit) {
+      html += `<span class="kw">${escapeHtml(hit)}</span>`;
+      i += hit.length;
+    } else if (chars.has(text[i])) {
+      html += `<span class="kw">${escapeHtml(text[i])}</span>`;
+      i += 1;
+    } else {
+      html += escapeHtml(text[i]);
+      i += 1;
+    }
+  }
+  return html;
 }
 
 function toSimplified(text) {
@@ -234,7 +318,8 @@ function wrapText(text, kind, lessonId) {
     s: toSimplified(text),
     speak: text,
     jy: "",
-    hint: kind === "word" ? "把字连起来，用广东话读" : "整句用广东话慢慢读",
+    html: kind === "sentence" ? highlightHtml(text, lessonId) : escapeHtml(text),
+    hint: kind === "word" ? "把字连起来，用广东话读" : "金黄色的是这一课要抓住的词和字",
     words: kind === "word" ? [text] : [],
     lesson: lessonId,
   };

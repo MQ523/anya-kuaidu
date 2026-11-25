@@ -136,7 +136,7 @@ function homeHTML() {
     </section>
     <div class="filters">
       ${chips}
-      <button class="chip ${state.lesson === "mix" ? "active" : ""}" data-lesson="mix">混合复习</button>
+      <button class="chip ${state.lesson === "mix" ? "active" : ""}" data-lesson="mix">全部混合</button>
     </div>
     <div class="filters">
       <button class="chip ${state.stage === "char" ? "active" : ""}" data-stage="char">生字</button>
@@ -160,10 +160,10 @@ function homeHTML() {
     <section class="tips panel">
       <h3>怎么带她玩</h3>
       <ol>
-        <li>先选课，再选生字、詞語或句子。第一、二课还没有句子，从第四课开始。</li>
-        <li>字会了再读词，词会了再读句。这是这本书记得住的原因。</li>
-        <li>句子比较长，四岁读不全很正常。她读对了就点「给星星」。</li>
-        <li>听不到广东话时，用 Safari，并下载「中文（香港）」Sinji 语音。</li>
+        <li>詞語和句子都来自《四五快读》第一册原文，没有另外编写。</li>
+        <li>第一至三课还没有句子，从第四课开始。最后一课是课後复习。</li>
+        <li>句子里金黄色的是关键词：书里出现过的詞語和生字。</li>
+        <li>句子比较长，四岁读不全很正常。读对了就点「给星星」。</li>
       </ol>
     </section>
   `;
@@ -202,8 +202,11 @@ function readHTML() {
   const showExtra = state.status === "tryagain" || state.showHint;
   const pinyin = showExtra && item.kind === "char" ? item.jy : "";
   const words =
-    showExtra && item.kind === "char" ? item.words.join("　") : STAGE[state.stage].prompt;
+    showExtra && item.kind === "char"
+      ? phrasesForChar(item.z).slice(0, 6).join("　") || STAGE[state.stage].prompt
+      : STAGE[state.stage].prompt;
   const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
+  const display = item.kind === "sentence" ? item.html : item.z;
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
@@ -212,7 +215,7 @@ function readHTML() {
     </div>
     <p class="coach ${state.status === "tryagain" || state.status === "no-mic" ? "warn" : ""}" id="coach">${coachText()}</p>
     <section class="word-card">
-      <div class="hanzi ${sizeClass}">${item.z}</div>
+      <div class="hanzi ${sizeClass}">${display}</div>
       <p class="pinyin" id="pinyin">${pinyin}</p>
       <p class="words" id="words">${words}</p>
       <div class="actions">
@@ -232,7 +235,12 @@ function readHTML() {
 function tapHTML() {
   const sizeClass = state.stage === "sentence" ? "sentence" : state.stage === "word" ? "word" : "";
   const cards = state.choices
-    .map((item) => `<button class="tap-card ${sizeClass}" data-z="${item.z}">${item.z}</button>`)
+    .map(
+      (item) =>
+        `<button class="tap-card ${sizeClass}" data-z="${item.z}">${
+          item.kind === "sentence" ? item.html : item.z
+        }</button>`
+    )
     .join("");
   return `
     <div class="game-header">
@@ -272,7 +280,9 @@ function bindPlay() {
     if (state.mode === "read") {
       document.getElementById("pinyin").textContent = state.item.kind === "char" ? state.item.jy : "";
       document.getElementById("words").textContent =
-        state.item.kind === "char" ? state.item.words.join("　") : STAGE[state.stage].prompt;
+        state.item.kind === "char"
+          ? phrasesForChar(state.item.z).slice(0, 6).join("　")
+          : STAGE[state.stage].prompt;
     }
     AudioFx.speakChar(state.item);
   };
@@ -311,7 +321,7 @@ function updateReadChrome() {
   if (label) label.textContent = state.status === "recording" ? "正在听…" : "录音";
   if (state.status === "tryagain" && state.item.kind === "char") {
     document.getElementById("pinyin").textContent = state.item.jy;
-    document.getElementById("words").textContent = state.item.words.join("　");
+    document.getElementById("words").textContent = phrasesForChar(state.item.z).slice(0, 6).join("　");
   }
 }
 
@@ -414,11 +424,15 @@ function succeed(item) {
   AudioFx.success();
   burstConfetti();
   const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
-  const extra = item.kind === "char" ? `<p>${item.jy || ""}</p><p>${item.words.join("　")}</p>` : "";
+  const extra =
+    item.kind === "char"
+      ? `<p>${item.jy || ""}</p><p>${phrasesForChar(item.z).slice(0, 6).join("　")}</p>`
+      : "";
+  const display = item.kind === "sentence" ? item.html : item.z;
   celebrateEl.className = "celebrate show";
   celebrateEl.innerHTML = `
     <div class="celebrate-card">
-      <div class="hanzi ${sizeClass}">${item.z}</div>
+      <div class="hanzi ${sizeClass}">${display}</div>
       ${extra}
       <p>读对了！得到一颗星星</p>
       <div class="actions" style="margin-top:14px">
