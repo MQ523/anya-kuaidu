@@ -26,15 +26,14 @@ const AudioFx = (() => {
   function pickVoice() {
     const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
     return (
-      voices.find((v) => /zh-TW/i.test(v.lang) && /female|ting|meijia|hanhan/i.test(v.name)) ||
-      voices.find((v) => /zh-CN/i.test(v.lang) && /ting|xiaoxiao|female|huihui/i.test(v.name)) ||
-      voices.find((v) => /zh-TW/i.test(v.lang)) ||
-      voices.find((v) => /zh-CN/i.test(v.lang)) ||
-      voices.find((v) => /^zh/i.test(v.lang))
+      voices.find((v) => /zh-HK/i.test(v.lang) && /sinji|google/i.test(v.name)) ||
+      voices.find((v) => /zh-HK/i.test(v.lang)) ||
+      voices.find((v) => /yue/i.test(v.lang)) ||
+      voices.find((v) => /sinji|粵語|粤语|cantonese|hong kong/i.test(v.name))
     );
   }
 
-  function speak(text, { lang = "zh-TW", rate = 0.78 } = {}) {
+  function speak(text, { lang = "zh-HK", rate = 0.78 } = {}) {
     stopSpeak();
     if (!window.speechSynthesis) return Promise.resolve();
     const utter = new SpeechSynthesisUtterance(text);

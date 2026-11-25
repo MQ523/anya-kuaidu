@@ -78,11 +78,13 @@ function nextItem(reset) {
 }
 
 function isMatch(transcripts, item) {
-  const needles = [item.z, item.s, stripTone(item.py), item.py];
+  const needles = [item.z, item.s, item.jy, stripJyutping(item.jy)];
   if (item.z === "媽") needles.push("妈妈", "媽媽", "妈");
   if (item.z === "爸") needles.push("爸爸");
   if (item.z === "爺") needles.push("爷爷", "爺爺");
   if (item.z === "奶") needles.push("奶奶");
+  if (item.z === "的") needles.push("嘅");
+  if (item.z === "不") needles.push("唔");
   return transcripts.some((raw) => {
     const t = String(raw).replace(/\s/g, "");
     const low = t.toLowerCase();
@@ -109,7 +111,7 @@ function homeHTML() {
   return `
     <section class="hero-card">
       <h2>先出字，再自己读</h2>
-      <p>按《四五快读》第一册十课来。先看汉字，卡住了可以听标准音；也可以录音，读对了得星星。四岁一次玩几分钟就好。</p>
+      <p>按《四五快读》第一册十课来，<strong>听和读都是香港广东话</strong>。先看汉字，卡住了可以听标准粤语；也可以录音，读对了得星星。</p>
     </section>
     <div class="filters">
       ${chips}
@@ -133,9 +135,10 @@ function homeHTML() {
       <h3>怎么带她玩</h3>
       <ol>
         <li>先选课。第一课最像图画：人、口、大、小、哭、笑。</li>
-        <li>不要把拼音先念给她听。让她先看字。</li>
+        <li>不要把粤拼先念给她听。让她先看字，用广东话读。</li>
         <li>电脑有时听不准四岁的声音。她读对了，点「读对了，给星星」。</li>
         <li>认得出的字，马上读下面的词。词比单个字更容易记住。</li>
+        <li>听不到广东话时：iPhone/iPad 去设置里下载「中文（香港）」语音（Sinji）。Chrome 也要装香港粤语语音包。</li>
       </ol>
     </section>
   `;
@@ -162,7 +165,7 @@ function playHTML() {
 function readHTML() {
   const item = state.item;
   const recording = state.status === "recording";
-  const pinyin = state.status === "tryagain" || state.showHint ? item.py : "";
+  const pinyin = state.status === "tryagain" || state.showHint ? item.jy : "";
   const words = state.status === "tryagain" || state.showHint ? item.words.join("　") : "先自己读这个字";
   return `
     <div class="game-header">
@@ -199,7 +202,7 @@ function tapHTML() {
       <strong>听音点字</strong>
       <button class="ghost" id="skip">换一个</button>
     </div>
-    <p class="coach" id="coach">先听，再点那个字。不要看拼音。</p>
+    <p class="coach" id="coach">先听广东话，再点那个字。</p>
     <section class="word-card">
       <div class="tap-grid">${cards}</div>
       <div class="actions">
@@ -229,7 +232,7 @@ function bindPlay() {
     stopListening();
     state.showHint = true;
     if (state.mode === "read") {
-      document.getElementById("pinyin").textContent = state.item.py;
+      document.getElementById("pinyin").textContent = state.item.jy;
       document.getElementById("words").textContent = state.item.words.join("　");
     }
     AudioFx.speakChar(state.item);
@@ -268,7 +271,7 @@ function updateReadChrome() {
   if (mic) mic.classList.toggle("recording", state.status === "recording");
   if (label) label.textContent = state.status === "recording" ? "正在听…" : "录音";
   if (state.status === "tryagain") {
-    document.getElementById("pinyin").textContent = state.item.py;
+    document.getElementById("pinyin").textContent = state.item.jy;
     document.getElementById("words").textContent = state.item.words.join("　");
   }
 }
@@ -298,7 +301,7 @@ function beginRecord() {
 
   const rec = new SpeechRec();
   recognizer = rec;
-  rec.lang = "zh-TW";
+  rec.lang = "zh-HK";
   rec.interimResults = true;
   rec.maxAlternatives = 5;
   rec.continuous = false;
@@ -335,7 +338,7 @@ function beginRecord() {
   try {
     rec.start();
   } catch (err) {
-    rec.lang = "zh-CN";
+    rec.lang = "zh-HK";
     try {
       rec.start();
     } catch (err2) {
@@ -375,7 +378,7 @@ function succeed(item) {
   celebrateEl.innerHTML = `
     <div class="celebrate-card">
       <div class="hanzi">${item.z}</div>
-      <p>${item.py}</p>
+      <p>${item.jy}</p>
       <p>${item.words.join("　")}</p>
       <p>读对了！得到一颗星星</p>
       <div class="actions" style="margin-top:14px">
