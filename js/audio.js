@@ -26,10 +26,11 @@ const AudioFx = (() => {
   function pickVoice() {
     const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
     return (
-      voices.find((v) => /zh-HK/i.test(v.lang) && /sinji|google/i.test(v.name)) ||
-      voices.find((v) => /zh-HK/i.test(v.lang)) ||
+      voices.find((v) => /sinji/i.test(v.name)) ||
+      voices.find((v) => /zh[-_]HK/i.test(v.lang) && /google/i.test(v.name)) ||
+      voices.find((v) => /zh[-_]HK/i.test(v.lang)) ||
       voices.find((v) => /yue/i.test(v.lang)) ||
-      voices.find((v) => /sinji|粵語|粤语|cantonese|hong kong/i.test(v.name))
+      voices.find((v) => /粵語|粤语|cantonese|hong kong/i.test(v.name))
     );
   }
 
