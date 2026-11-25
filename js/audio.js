@@ -54,7 +54,9 @@ const AudioFx = (() => {
   }
 
   function speakChar(item) {
-    return speak(item.z, { rate: 0.7 });
+    const text = item.speak || item.z;
+    const rate = item.kind === "sentence" ? 0.86 : item.kind === "word" ? 0.78 : 0.7;
+    return speak(text, { rate });
   }
 
   function speakWords(words) {

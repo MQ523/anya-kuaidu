@@ -4,9 +4,16 @@ const starEl = document.getElementById("star-count");
 const confettiCanvas = document.getElementById("confetti");
 const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+const STAGE = {
+  char: { read: "看字朗读", tap: "听音点字", unit: "字", prompt: "先自己读这个字" },
+  word: { read: "看詞朗读", tap: "听音点詞", unit: "詞語", prompt: "先自己读这个词" },
+  sentence: { read: "看句朗读", tap: "听音点句", unit: "句子", prompt: "先自己读这句话" },
+};
+
 const state = {
   screen: "home",
   lesson: 1,
+  stage: "char",
   mode: "read",
   item: null,
   choices: [],
@@ -59,6 +66,7 @@ function goHome() {
 }
 
 function startGame(mode) {
+  if (!lessonHasStage(state.lesson, state.stage)) return;
   AudioFx.unlock();
   state.mode = mode;
   state.screen = "play";
@@ -69,8 +77,8 @@ function nextItem(reset) {
   stopListening();
   AudioFx.stopSpeak();
   const prev = state.item && state.item.z;
-  state.item = pickChar(state.lesson, reset ? null : prev);
-  state.choices = pickChoices(state.item, state.lesson);
+  state.item = pickItem(state.lesson, state.stage, reset ? null : prev);
+  state.choices = pickChoices(state.item, state.lesson, state.stage);
   state.status = "idle";
   state.heard = "";
   state.showHint = false;
@@ -78,11 +86,21 @@ function nextItem(reset) {
 }
 
 function isMatch(transcripts, item) {
-  const needles = [item.z, item.s, item.jy, stripJyutping(item.jy)];
-  if (item.z === "媽") needles.push("妈妈", "媽媽", "妈");
-  if (item.z === "爸") needles.push("爸爸");
-  if (item.z === "爺") needles.push("爷爷", "爺爺");
-  if (item.z === "奶") needles.push("奶奶");
+  if (item.kind === "sentence") {
+    const chars = [...item.z].filter((ch) => /[\u4e00-\u9fff]/.test(ch));
+    const need = Math.min(4, Math.max(2, Math.ceil(chars.length * 0.5)));
+    return transcripts.some((raw) => {
+      const t = String(raw).replace(/\s/g, "");
+      const hit = chars.filter((ch) => t.includes(ch) || t.includes(toSimplified(ch))).length;
+      return hit >= need;
+    });
+  }
+  const needles = [item.z, item.s, item.jy, stripJyutping(item.jy)].filter(Boolean);
+  if (item.kind === "word") needles.push(toSimplified(item.z));
+  if (item.z === "媽" || item.z.includes("媽")) needles.push("妈妈", "媽媽", "妈");
+  if (item.z === "爸" || item.z.includes("爸")) needles.push("爸爸");
+  if (item.z.includes("爺")) needles.push("爷爷", "爺爺");
+  if (item.z.includes("奶")) needles.push("奶奶");
   if (item.z === "的") needles.push("嘅");
   if (item.z === "不") needles.push("唔");
   return transcripts.some((raw) => {
@@ -108,37 +126,44 @@ function homeHTML() {
     (lesson) =>
       `<button class="chip ${state.lesson === lesson.id ? "active" : ""}" data-lesson="${lesson.id}">${lesson.title}</button>`
   ).join("");
+  const hasWords = lessonHasStage(state.lesson, "word");
+  const hasSentences = lessonHasStage(state.lesson, "sentence");
+  const labels = STAGE[state.stage];
   return `
     <section class="hero-card">
-      <h2>先出字，再自己读</h2>
-      <p>按《四五快读》第一册十课来，<strong>听和读都是香港广东话</strong>。先看汉字，卡住了可以听标准粤语；也可以录音，读对了得星星。</p>
+      <h2>字 → 詞 → 句</h2>
+      <p>按《四五快读》第一册：先认生字，再读詞語，第四课起读句子。<strong>听和读都是香港广东话</strong>。</p>
     </section>
     <div class="filters">
       ${chips}
       <button class="chip ${state.lesson === "mix" ? "active" : ""}" data-lesson="mix">混合复习</button>
     </div>
+    <div class="filters">
+      <button class="chip ${state.stage === "char" ? "active" : ""}" data-stage="char">生字</button>
+      <button class="chip ${state.stage === "word" ? "active" : ""} ${hasWords ? "" : "off"}" data-stage="word">詞語</button>
+      <button class="chip ${state.stage === "sentence" ? "active" : ""} ${hasSentences ? "" : "off"}" data-stage="sentence">句子</button>
+    </div>
     <button class="mode-card" data-mode="read">
       <span class="mode-icon">👀</span>
       <span>
-        <h3>看字朗读</h3>
-        <p>大字出现，自己试着读。可听、可录音、可读对了给星星。</p>
+        <h3>${labels.read}</h3>
+        <p>先看${labels.unit}，自己试着读。可听、可录音，读对了得星星。</p>
       </span>
     </button>
     <button class="mode-card" data-mode="tap">
       <span class="mode-icon">👂</span>
       <span>
-        <h3>听音点字</h3>
-        <p>电脑读一个字，从四个字里点出来。录音不稳时更好玩。</p>
+        <h3>${labels.tap}</h3>
+        <p>电脑用广东话读，从几个选项里点出来。录音不稳时更好玩。</p>
       </span>
     </button>
     <section class="tips panel">
       <h3>怎么带她玩</h3>
       <ol>
-        <li>先选课。第一课最像图画：人、口、大、小、哭、笑。</li>
-        <li>不要把粤拼先念给她听。让她先看字，用广东话读。</li>
-        <li>电脑有时听不准四岁的声音。她读对了，点「读对了，给星星」。</li>
-        <li>认得出的字，马上读下面的词。词比单个字更容易记住。</li>
-        <li>听不到广东话时：iPhone/iPad 去设置里下载「中文（香港）」语音（Sinji）。Chrome 也要装香港粤语语音包。</li>
+        <li>先选课，再选生字、詞語或句子。第一、二课还没有句子，从第四课开始。</li>
+        <li>字会了再读词，词会了再读句。这是这本书记得住的原因。</li>
+        <li>句子比较长，四岁读不全很正常。她读对了就点「给星星」。</li>
+        <li>听不到广东话时，用 Safari，并下载「中文（香港）」Sinji 语音。</li>
       </ol>
     </section>
   `;
@@ -149,6 +174,15 @@ function bindHome() {
     btn.onclick = () => {
       const value = btn.dataset.lesson;
       state.lesson = value === "mix" ? "mix" : Number(value);
+      if (!lessonHasStage(state.lesson, state.stage)) state.stage = "char";
+      render();
+    };
+  });
+  appEl.querySelectorAll("[data-stage]").forEach((btn) => {
+    btn.onclick = () => {
+      const stage = btn.dataset.stage;
+      if (!lessonHasStage(state.lesson, stage)) return;
+      state.stage = stage;
       render();
     };
   });
@@ -165,17 +199,20 @@ function playHTML() {
 function readHTML() {
   const item = state.item;
   const recording = state.status === "recording";
-  const pinyin = state.status === "tryagain" || state.showHint ? item.jy : "";
-  const words = state.status === "tryagain" || state.showHint ? item.words.join("　") : "先自己读这个字";
+  const showExtra = state.status === "tryagain" || state.showHint;
+  const pinyin = showExtra && item.kind === "char" ? item.jy : "";
+  const words =
+    showExtra && item.kind === "char" ? item.words.join("　") : STAGE[state.stage].prompt;
+  const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
-      <strong>看字朗读</strong>
+      <strong>${STAGE[state.stage].read}</strong>
       <button class="ghost" id="skip">换一个</button>
     </div>
     <p class="coach ${state.status === "tryagain" || state.status === "no-mic" ? "warn" : ""}" id="coach">${coachText()}</p>
     <section class="word-card">
-      <div class="hanzi">${item.z}</div>
+      <div class="hanzi ${sizeClass}">${item.z}</div>
       <p class="pinyin" id="pinyin">${pinyin}</p>
       <p class="words" id="words">${words}</p>
       <div class="actions">
@@ -193,16 +230,17 @@ function readHTML() {
 }
 
 function tapHTML() {
+  const sizeClass = state.stage === "sentence" ? "sentence" : state.stage === "word" ? "word" : "";
   const cards = state.choices
-    .map((item) => `<button class="tap-card" data-z="${item.z}">${item.z}</button>`)
+    .map((item) => `<button class="tap-card ${sizeClass}" data-z="${item.z}">${item.z}</button>`)
     .join("");
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
-      <strong>听音点字</strong>
+      <strong>${STAGE[state.stage].tap}</strong>
       <button class="ghost" id="skip">换一个</button>
     </div>
-    <p class="coach" id="coach">先听广东话，再点那个字。</p>
+    <p class="coach" id="coach">先听广东话，再点那个${STAGE[state.stage].unit}。</p>
     <section class="word-card">
       <div class="tap-grid">${cards}</div>
       <div class="actions">
@@ -214,7 +252,7 @@ function tapHTML() {
 }
 
 function coachText() {
-  if (state.status === "recording") return "请大声读这个字。";
+  if (state.status === "recording") return `请大声读这个${STAGE[state.stage].unit}。`;
   if (state.status === "tryagain") {
     return state.heard
       ? `电脑听到的是「${state.heard}」。再试一次，或先听一听。`
@@ -222,7 +260,7 @@ function coachText() {
   }
   if (state.status === "no-mic") return "没有麦克风权限。可以听一听跟读，读对了由爸爸妈妈点「给星星」。";
   if (state.status === "no-engine") return "这个浏览器不太会判分。请用 Chrome，或读对后点「给星星」。";
-  return "先看这个字，试着读出来。";
+  return `先看这个${STAGE[state.stage].unit}，试着用广东话读出来。`;
 }
 
 function bindPlay() {
@@ -232,8 +270,9 @@ function bindPlay() {
     stopListening();
     state.showHint = true;
     if (state.mode === "read") {
-      document.getElementById("pinyin").textContent = state.item.jy;
-      document.getElementById("words").textContent = state.item.words.join("　");
+      document.getElementById("pinyin").textContent = state.item.kind === "char" ? state.item.jy : "";
+      document.getElementById("words").textContent =
+        state.item.kind === "char" ? state.item.words.join("　") : STAGE[state.stage].prompt;
     }
     AudioFx.speakChar(state.item);
   };
@@ -270,7 +309,7 @@ function updateReadChrome() {
   if (heard) heard.textContent = state.heard ? `电脑听到：${state.heard}` : "";
   if (mic) mic.classList.toggle("recording", state.status === "recording");
   if (label) label.textContent = state.status === "recording" ? "正在听…" : "录音";
-  if (state.status === "tryagain") {
+  if (state.status === "tryagain" && state.item.kind === "char") {
     document.getElementById("pinyin").textContent = state.item.jy;
     document.getElementById("words").textContent = state.item.words.join("　");
   }
@@ -356,7 +395,7 @@ function beginRecord() {
         /* ignore */
       }
     }
-  }, 4000);
+  }, state.item && state.item.kind === "sentence" ? 8000 : 4000);
 }
 
 function finishRecord(transcripts) {
@@ -374,12 +413,13 @@ function succeed(item) {
   addStar();
   AudioFx.success();
   burstConfetti();
+  const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
+  const extra = item.kind === "char" ? `<p>${item.jy || ""}</p><p>${item.words.join("　")}</p>` : "";
   celebrateEl.className = "celebrate show";
   celebrateEl.innerHTML = `
     <div class="celebrate-card">
-      <div class="hanzi">${item.z}</div>
-      <p>${item.jy}</p>
-      <p>${item.words.join("　")}</p>
+      <div class="hanzi ${sizeClass}">${item.z}</div>
+      ${extra}
       <p>读对了！得到一颗星星</p>
       <div class="actions" style="margin-top:14px">
         <button class="btn gold" id="hear-again">再听一遍</button>
@@ -387,16 +427,17 @@ function succeed(item) {
       </div>
     </div>
   `;
-  document.getElementById("hear-again").onclick = () => {
-    AudioFx.speakChar(item).then(() => AudioFx.speakWords(item.words));
+  const replay = () => {
+    AudioFx.speakChar(item).then(() => {
+      if (item.kind === "char") AudioFx.speakWords(item.words);
+    });
   };
+  document.getElementById("hear-again").onclick = replay;
   document.getElementById("again").onclick = () => {
     celebrateEl.className = "celebrate";
     nextItem(false);
   };
-  setTimeout(() => {
-    AudioFx.speakChar(item).then(() => AudioFx.speakWords(item.words));
-  }, 280);
+  setTimeout(replay, 280);
 }
 
 function burstConfetti() {

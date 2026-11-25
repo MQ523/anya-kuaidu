@@ -20,6 +20,8 @@ const LESSONS = [
       { z: "爸", s: "爸", jy: "baa4", hint: "指爸爸", words: ["爸爸"] },
       { z: "媽", s: "妈", jy: "maa1", hint: "指妈妈", words: ["媽媽"] },
     ],
+    phrases: ["大人", "小人", "大哭", "大笑", "大口", "小口"],
+    sentences: [],
   },
   {
     id: 2,
@@ -34,6 +36,8 @@ const LESSONS = [
       { z: "水", s: "水", jy: "seoi2", hint: "可以喝的", words: ["大水"] },
       { z: "三", s: "三", jy: "saam1", hint: "三横", words: ["三天", "三月"] },
     ],
+    phrases: ["爸爸", "媽媽", "上天", "天上", "太大", "太小", "一天", "一月", "二月", "上上下下"],
+    sentences: [],
   },
   {
     id: 3,
@@ -48,6 +52,8 @@ const LESSONS = [
       { z: "有", s: "有", jy: "jau5", hint: "手里拿着", words: ["我有"] },
       { z: "田", s: "田", jy: "tin4", hint: "四块格子", words: ["水田", "田地"] },
     ],
+    phrases: ["天地", "大地", "太陽", "月亮", "星星", "天亮", "大火", "大水", "火星", "水星", "三天", "三月", "地上", "地下"],
+    sentences: [],
   },
   {
     id: 4,
@@ -61,6 +67,13 @@ const LESSONS = [
       { z: "心", s: "心", jy: "sam1", hint: "拍胸口", words: ["小心", "心中"] },
       { z: "和", s: "和", jy: "wo4", hint: "还有、一起", words: ["和"] },
       { z: "四", s: "四", jy: "sei3", hint: "四个", words: ["四天", "四月"] },
+    ],
+    phrases: ["土地", "大山", "小山", "土山", "石山", "火山", "土星", "木星", "好人", "田地", "水田", "我有", "我爸", "我媽", "我哭", "我笑", "好山好水"],
+    sentences: [
+      "我有好爸爸、好媽媽。",
+      "天上有太陽、月亮、星星。",
+      "地上有土、石、山、水田。",
+      "爸爸上山，媽媽下山。",
     ],
   },
   {
@@ -76,6 +89,13 @@ const LESSONS = [
       { z: "樹", s: "树", jy: "syu6", hint: "高高的", words: ["大樹", "小樹"] },
       { z: "五", s: "五", jy: "ng5", hint: "五个", words: ["五天", "五月"] },
     ],
+    phrases: ["大牛", "小牛", "水牛", "山羊", "小羊", "小心", "中心", "心中", "四月", "四天"],
+    sentences: [
+      "地上有小草和大樹。",
+      "草地上有水牛和小山羊。",
+      "爸爸和媽媽心中有我。",
+      "我心中有爸爸和媽媽。",
+    ],
   },
   {
     id: 6,
@@ -89,6 +109,13 @@ const LESSONS = [
       { z: "的", s: "的", jy: "dik1", hint: "我的、你的（口語常說「嘅」）", words: ["我的"] },
       { z: "孩", s: "孩", jy: "haai4", hint: "小朋友", words: ["孩子"] },
       { z: "六", s: "六", jy: "luk6", hint: "六个", words: ["六天", "六月"] },
+    ],
+    phrases: ["聰明", "明亮", "明天", "明月", "眉頭", "鼻頭", "石頭", "木頭", "心頭", "小手", "小花", "大樹", "小樹", "樹木", "五月", "五天", "手心"],
+    sentences: [
+      "我有小手。",
+      "頭上有眉、目、耳、鼻和口。",
+      "眉下有目，鼻下有口。",
+      "樹上有花和葉。",
     ],
   },
   {
@@ -104,6 +131,13 @@ const LESSONS = [
       { z: "子", s: "子", jy: "zi2", hint: "孩子、叶子", words: ["孩子", "鼻子"] },
       { z: "七", s: "七", jy: "cat1", hint: "七个", words: ["七天", "七月"] },
     ],
+    phrases: ["花草", "小草", "草地", "樹葉", "一日", "大風", "大雨", "小雨", "下雨", "風雨", "雨水", "我的", "六月", "六日", "六天"],
+    sentences: [
+      "天上有明亮的太陽和月亮。",
+      "我有爸爸和媽媽。",
+      "明日有大風，下大雨。",
+      "石頭上有小草和小花。",
+    ],
   },
   {
     id: 8,
@@ -117,6 +151,13 @@ const LESSONS = [
       { z: "不", s: "不", jy: "bat1", hint: "摇头（口語常說「唔」）", words: ["不是", "不哭"] },
       { z: "朋", s: "朋", jy: "pang4", hint: "两个月在一起", words: ["朋友"] },
       { z: "入", s: "入", jy: "jap6", hint: "走进去", words: ["入"] },
+    ],
+    phrases: ["白雲", "白天", "明白", "紅花", "紅日", "火紅", "火花", "是的", "我是", "大家", "我家", "人家", "鼻子", "葉子", "七月", "七日", "七天", "紅太陽"],
+    sentences: [
+      "我是爸爸、媽媽的好孩子。",
+      "天是太陽、月亮、星星的家。",
+      "白天，天上有紅太陽；地上有紅花、白花和小草。",
+      "爺爺、奶奶家有大水牛和小山羊。",
     ],
   },
   {
@@ -132,6 +173,14 @@ const LESSONS = [
       { z: "兒", s: "儿", jy: "ji4", hint: "花儿、儿子", words: ["花兒", "兒子"] },
       { z: "九", s: "九", jy: "gau2", hint: "九个", words: ["九天", "九月"] },
     ],
+    phrases: ["爺爺", "奶奶", "多少", "唱歌", "愛笑", "愛哭", "愛唱", "不愛", "不哭", "不笑", "不唱", "不是", "是不是", "好不好", "不好", "八日", "八月", "八天"],
+    sentences: [
+      "明天多雲，有小雨。",
+      "聰聰愛唱歌。",
+      "我家有爺爺、奶奶、爸爸、媽媽和我。",
+      "爺爺愛我，奶奶愛我，爸爸愛我，媽媽愛我。",
+      "我愛爺爺，我愛奶奶，我愛爸爸，我愛媽媽。",
+    ],
   },
   {
     id: 10,
@@ -146,37 +195,77 @@ const LESSONS = [
       { z: "氣", s: "气", jy: "hei3", hint: "生不生气", words: ["生氣"] },
       { z: "十", s: "十", jy: "sap6", hint: "十字", words: ["十天", "十月"] },
     ],
+    phrases: ["寶寶", "在家", "不在", "游水", "朋友", "友人", "花兒", "兒子", "兒歌", "歌兒", "九日", "九月", "九天"],
+    sentences: [
+      "我是寶寶，我在家愛唱兒歌。",
+      "我不愛哭，我愛笑。",
+      "我的好朋友是聰聰。",
+      "爸爸和兒子玩遊戲。",
+    ],
   },
 ];
 
 function allChars() {
   return LESSONS.flatMap((lesson) =>
-    lesson.chars.map((item) => ({ ...item, lesson: lesson.id }))
+    lesson.chars.map((item) => ({ ...item, kind: "char", speak: item.z, lesson: lesson.id }))
   );
 }
 
-function charsForFilter(filter) {
-  if (filter === "mix" || filter === "review") return allChars();
+function selectedLessons(filter) {
+  if (filter === "mix" || filter === "review") return LESSONS;
   const lesson = LESSONS.find((item) => item.id === Number(filter));
-  return (lesson ? lesson.chars : allChars()).map((item) => ({
-    ...item,
-    lesson: lesson ? lesson.id : item.lesson,
-  }));
+  return lesson ? [lesson] : LESSONS;
 }
 
-function pickChar(filter, avoid) {
-  const pool = charsForFilter(filter).filter((item) => item.z !== avoid);
-  return pool[Math.floor(Math.random() * pool.length)] || charsForFilter(filter)[0];
+function toSimplified(text) {
+  const map = {};
+  LESSONS.forEach((lesson) => {
+    lesson.chars.forEach((item) => {
+      map[item.z] = item.s;
+    });
+  });
+  return [...text].map((ch) => map[ch] || ch).join("");
 }
 
-function pickChoices(target, filter) {
-  const pool = charsForFilter(filter).filter((item) => item.z !== target.z);
-  const distractors = shuffle(pool).slice(0, 3);
-  while (distractors.length < 3) {
-    const extra = allChars().find((item) => item.z !== target.z && !distractors.some((d) => d.z === item.z));
-    if (!extra) break;
-    distractors.push(extra);
+function wrapText(text, kind, lessonId) {
+  return {
+    kind,
+    z: text,
+    s: toSimplified(text),
+    speak: text,
+    jy: "",
+    hint: kind === "word" ? "把字连起来，用广东话读" : "整句用广东话慢慢读",
+    words: kind === "word" ? [text] : [],
+    lesson: lessonId,
+  };
+}
+
+function itemsFor(filter, stage) {
+  if (stage === "char") {
+    return selectedLessons(filter).flatMap((lesson) =>
+      lesson.chars.map((item) => ({ ...item, kind: "char", speak: item.z, lesson: lesson.id }))
+    );
   }
+  const key = stage === "word" ? "phrases" : "sentences";
+  const kind = stage === "word" ? "word" : "sentence";
+  return selectedLessons(filter).flatMap((lesson) =>
+    (lesson[key] || []).map((text) => wrapText(text, kind, lesson.id))
+  );
+}
+
+function lessonHasStage(filter, stage) {
+  return itemsFor(filter, stage).length > 0;
+}
+
+function pickItem(filter, stage, avoid) {
+  const pool = itemsFor(filter, stage).filter((item) => item.z !== avoid);
+  return pool[Math.floor(Math.random() * pool.length)] || itemsFor(filter, stage)[0];
+}
+
+function pickChoices(target, filter, stage) {
+  const pool = itemsFor(filter, stage).filter((item) => item.z !== target.z);
+  const want = target.kind === "sentence" ? 2 : 3;
+  const distractors = shuffle(pool).slice(0, want);
   return shuffle([target, ...distractors]);
 }
 
