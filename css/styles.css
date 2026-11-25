@@ -426,6 +426,14 @@ button {
   font-size: 1.45rem;
 }
 
+.celebrate-card .hanzi.word {
+  font-size: 2.8rem;
+}
+
+.celebrate-card .hanzi.sentence {
+  font-size: 1.45rem;
+}
+
 .confetti {
   position: fixed;
   inset: 0;
