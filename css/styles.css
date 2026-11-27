@@ -484,8 +484,33 @@ button {
 }
 
 .pinyin:empty,
-.words:empty {
+.words:empty,
+.phrase-row:empty {
   display: none;
+}
+
+.phrase-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.phrase-chip {
+  border: 0;
+  background: #fff4d4;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-family: "Noto Serif TC", "Songti TC", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+}
+
+.phrase-chip:active {
+  transform: scale(0.96);
 }
 
 .words {

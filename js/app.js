@@ -524,12 +524,30 @@ function playHTML() {
   return readHTML();
 }
 
+function phraseButtonsHTML(phrases) {
+  return phrases
+    .map((phrase) => {
+      const safe = escapeHtml(phrase).replace(/"/g, "&quot;");
+      return `<button type="button" class="phrase-chip" data-say="${safe}">${escapeHtml(phrase)}</button>`;
+    })
+    .join("");
+}
+
+function bindPhraseChips(root) {
+  (root || appEl).querySelectorAll("[data-say]").forEach((btn) => {
+    btn.onclick = () => {
+      AudioFx.unlock();
+      AudioFx.speak(btn.dataset.say, { rate: 0.78 });
+    };
+  });
+}
+
 function readHTML() {
   const item = state.item;
   const showExtra = state.showHint;
   const pinyin = showExtra && item.kind === "char" ? item.jy : "";
   const words =
-    showExtra && item.kind === "char" ? phrasesForChar(item.z).slice(0, 6).join("　") : "";
+    showExtra && item.kind === "char" ? phraseButtonsHTML(phrasesForChar(item.z).slice(0, 6)) : "";
   const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
   const display = item.kind === "sentence" ? item.html : item.z;
   const atFirst = state.missMode || state.queueIndex <= 0;
@@ -545,7 +563,7 @@ function readHTML() {
       ${Pics.html(item)}
       <div class="hanzi ${sizeClass}">${display}</div>
       <p class="pinyin" id="pinyin">${pinyin}</p>
-      <p class="words" id="words">${words}</p>
+      <div class="phrase-row" id="words">${words}</div>
       <div class="actions learn-nav">
         <button class="nav-btn" id="prev" ${atFirst ? "disabled" : ""}>上一个</button>
         <button class="listen-btn" id="listen">听一听</button>
@@ -602,11 +620,16 @@ function bindPlay() {
     state.showHint = true;
     if (state.mode === "read") {
       document.getElementById("pinyin").textContent = state.item.kind === "char" ? state.item.jy : "";
-      document.getElementById("words").textContent =
-        state.item.kind === "char" ? phrasesForChar(state.item.z).slice(0, 6).join("　") : "";
+      const wordsEl = document.getElementById("words");
+      if (wordsEl) {
+        wordsEl.innerHTML =
+          state.item.kind === "char" ? phraseButtonsHTML(phrasesForChar(state.item.z).slice(0, 6)) : "";
+        bindPhraseChips();
+      }
     }
     AudioFx.speakChar(state.item);
   };
+  bindPhraseChips();
   const parentOk = document.getElementById("parent-ok");
   if (parentOk) parentOk.onclick = () => succeed(state.item);
   appEl.querySelectorAll(".tap-card").forEach((btn) => {
@@ -644,7 +667,9 @@ function succeed(item) {
   const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
   const extra =
     item.kind === "char"
-      ? `<p>${item.jy || ""}</p><p>${phrasesForChar(item.z).slice(0, 6).join("　")}</p>`
+      ? `<p>${item.jy || ""}</p><div class="phrase-row">${phraseButtonsHTML(
+          phrasesForChar(item.z).slice(0, 6)
+        )}</div>`
       : "";
   const display = item.kind === "sentence" ? item.html : item.z;
   const stickerBit = state.justSticker
@@ -674,6 +699,7 @@ function succeed(item) {
       if (item.kind === "char") AudioFx.speakWords(item.words);
     });
   };
+  bindPhraseChips(celebrateEl);
   document.getElementById("hear-again").onclick = replay;
   document.getElementById("again").onclick = () => {
     celebrateEl.className = "celebrate";
