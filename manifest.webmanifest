@@ -1,0 +1,24 @@
+{
+  "name": "Anya 四五快讀",
+  "short_name": "Anya快讀",
+  "description": "四五快讀广东话认字",
+  "start_url": "./go.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff6ea",
+  "theme_color": "#fff6ea",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -41,7 +41,7 @@ button {
   width: min(860px, 100%);
   min-height: 100dvh;
   margin: 0 auto;
-  padding: 18px 18px 28px;
+  padding: calc(18px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom));
 }
 
 .topbar {
@@ -97,6 +97,25 @@ button {
   background: var(--paper);
   border-radius: 28px;
   box-shadow: var(--shadow);
+}
+
+.install-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #fff4d4;
+  border-radius: 18px;
+  padding: 12px 14px;
+  margin: 0 0 14px;
+}
+
+.install-hint p {
+  margin: 0;
+  color: #70531d;
+  font-weight: 700;
+  line-height: 1.45;
+  font-size: 0.95rem;
 }
 
 .filters,

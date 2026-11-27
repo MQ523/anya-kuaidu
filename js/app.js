@@ -212,6 +212,7 @@ function homeHTML() {
   const labels = STAGE[state.stage];
   const queue = itemsFor(filter, state.stage);
   return `
+    ${installHintHTML()}
     <div class="filters">
       ${bookChips}
       <button class="chip ${state.book === "all" ? "active" : ""}" data-book="all">八册混合</button>
@@ -237,6 +238,19 @@ function homeHTML() {
     ${albumHTML()}
     ${missPanelHTML()}
   `;
+}
+
+function isStandalone() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+function installHintHTML() {
+  if (isStandalone() || localStorage.getItem("kuaidu-hide-install")) return "";
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const text = ios
+    ? "点 Safari 底部「分享」，再选「添加到主屏幕」，以后像 App 一样打开。"
+    : "用浏览器菜单把「Anya快讀」加到主屏幕，以后像 App 一样打开。";
+  return `<section class="install-hint"><p>${text}</p><button type="button" class="ghost" id="hide-install">知道了</button></section>`;
 }
 
 function albumHTML() {
@@ -443,6 +457,13 @@ function bindMissDone() {
 }
 
 function bindHome() {
+  const hideInstall = document.getElementById("hide-install");
+  if (hideInstall) {
+    hideInstall.onclick = () => {
+      localStorage.setItem("kuaidu-hide-install", "1");
+      render();
+    };
+  }
   appEl.querySelectorAll("[data-book]").forEach((btn) => {
     btn.onclick = () => {
       const value = btn.dataset.book;
