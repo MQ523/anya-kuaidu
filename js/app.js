@@ -290,8 +290,8 @@ function tapHTML() {
   const sizeClass = state.stage === "sentence" ? "sentence" : state.stage === "word" ? "word" : "";
   const cards = state.choices
     .map(
-      (item) =>
-        `<button class="tap-card ${sizeClass}" data-z="${item.z}">${
+      (item, index) =>
+        `<button class="tap-card ${sizeClass}" data-i="${index}">${
           item.kind === "sentence" ? item.html : item.z
         }</button>`
     )
@@ -346,7 +346,9 @@ function bindPlay() {
   if (parentOk) parentOk.onclick = () => succeed(state.item);
   appEl.querySelectorAll(".tap-card").forEach((btn) => {
     btn.onclick = () => {
-      if (btn.dataset.z === state.item.z) {
+      AudioFx.unlock();
+      const choice = state.choices[Number(btn.dataset.i)];
+      if (choice && choice.z === state.item.z) {
         btn.classList.add("right");
         succeed(state.item);
         return;
@@ -356,7 +358,7 @@ function bindPlay() {
       setTimeout(() => {
         btn.classList.remove("wrong");
         AudioFx.speakChar(state.item);
-      }, 400);
+      }, 650);
     };
   });
   if (state.mode === "tap") setTimeout(() => AudioFx.speakChar(state.item), 250);
@@ -505,7 +507,7 @@ function succeed(item) {
     celebrateEl.className = "celebrate";
     nextItem(false);
   };
-  setTimeout(replay, 280);
+  setTimeout(replay, 520);
 }
 
 function burstConfetti() {

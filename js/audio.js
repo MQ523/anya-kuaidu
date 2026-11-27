@@ -16,6 +16,7 @@ const AudioFx = (() => {
     if (audio.state === "suspended") audio.resume();
     if (window.speechSynthesis) window.speechSynthesis.getVoices();
     unlocked = true;
+    return audio;
   }
 
   function stopSpeak() {
@@ -64,14 +65,13 @@ const AudioFx = (() => {
   }
 
   function tone(freq, start, duration, type, gainValue) {
-    if (!unlocked) return;
-    const audio = context();
+    const audio = unlock();
     const osc = audio.createOscillator();
     const gain = audio.createGain();
     osc.type = type;
-    osc.frequency.value = freq;
+    osc.frequency.setValueAtTime(freq, audio.currentTime + start);
     gain.gain.setValueAtTime(0.0001, audio.currentTime + start);
-    gain.gain.exponentialRampToValueAtTime(gainValue, audio.currentTime + start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(gainValue, audio.currentTime + start + 0.015);
     gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + start + duration);
     osc.connect(gain);
     gain.connect(audio.destination);
@@ -80,13 +80,17 @@ const AudioFx = (() => {
   }
 
   function success() {
-    tone(523.25, 0, 0.14, "sine", 0.05);
-    tone(659.25, 0.1, 0.16, "sine", 0.05);
-    tone(783.99, 0.2, 0.22, "sine", 0.06);
+    stopSpeak();
+    tone(587.33, 0, 0.12, "triangle", 0.14);
+    tone(739.99, 0.09, 0.13, "triangle", 0.14);
+    tone(880.0, 0.18, 0.16, "triangle", 0.16);
+    tone(1174.66, 0.3, 0.22, "sine", 0.12);
   }
 
   function oops() {
-    tone(220, 0, 0.14, "sine", 0.04);
+    stopSpeak();
+    tone(311.13, 0, 0.16, "square", 0.08);
+    tone(233.08, 0.12, 0.22, "square", 0.07);
   }
 
   if (window.speechSynthesis) {
