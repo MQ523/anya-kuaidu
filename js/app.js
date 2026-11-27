@@ -154,8 +154,7 @@ function nextItem(reset) {
       return;
     }
     if (state.queueIndex >= queue.length) {
-      const perfect = state.quizCorrect === queue.length;
-      state.justSticker = perfect ? Stickers.markQuiz(state.lesson) : null;
+      state.justSticker = Stickers.markQuiz(state.lesson) || state.justSticker;
       state.screen = "quiz-done";
       render();
       return;
@@ -254,28 +253,25 @@ function albumHTML() {
   return `
     <section class="sticker-album">
       <h3>公主贴纸 ${got} / ${items.length}</h3>
-      <p>学完一课，测验全对，就送一张。</p>
+      <p>选一课，做完测验，就送一张。</p>
       <div class="sticker-grid">${cells}</div>
     </section>
   `;
 }
 
 function stickerNoteHTML() {
-  if (typeof state.lesson !== "number") return "";
   if (state.justSticker) {
     return `${Stickers.img(state.justSticker, "sticker-prize")}<p class="pic-label">送你一张「${state.justSticker.name}」贴纸</p>`;
+  }
+  if (typeof state.lesson !== "number") {
+    return state.screen === "quiz-done" ? `<p class="words">选一课再测，才能得贴纸。</p>` : "";
   }
   const info = Stickers.status(state.lesson);
   if (info && info.sticker) {
     return `${Stickers.img(info.sticker, "sticker-prize tiny")}<p class="words">这一课的贴纸已经收下了</p>`;
   }
   if (state.screen === "lesson-done") {
-    return `<p class="words">去做测验，全对就送公主贴纸。</p>`;
-  }
-  if (state.screen === "quiz-done") {
-    const all = state.quizOrder.length && state.quizCorrect === state.quizOrder.length;
-    if (!all) return `<p class="words">全对才送贴纸，再测一次吧。</p>`;
-    if (info && !info.learned) return `<p class="words">先学完这一课，再测一次就能得贴纸。</p>`;
+    return `<p class="words">再做测验，测完就送公主贴纸。</p>`;
   }
   return "";
 }
@@ -614,7 +610,11 @@ function bindPlay() {
 }
 
 function succeed(item) {
-  if (state.mode === "tap" && !state.missMode) state.quizCorrect += 1;
+  if (state.mode === "tap" && !state.missMode) {
+    state.quizCorrect += 1;
+    const last = state.quizOrder && state.queueIndex >= state.quizOrder.length - 1;
+    if (last) state.justSticker = Stickers.markQuiz(state.lesson) || state.justSticker;
+  }
   const row = Stats.record(item, true);
   const cleared = state.missMode && row.streak >= 2;
   addStar();
@@ -626,17 +626,25 @@ function succeed(item) {
       ? `<p>${item.jy || ""}</p><p>${phrasesForChar(item.z).slice(0, 6).join("　")}</p>`
       : "";
   const display = item.kind === "sentence" ? item.html : item.z;
-  const msg = cleared ? "连对两次，从错题本拿走了！" : "读对了！得到一颗星星";
+  const stickerBit = state.justSticker
+    ? `${Stickers.img(state.justSticker, "sticker-prize")}<p class="pic-label">送你一张「${state.justSticker.name}」贴纸</p>`
+    : "";
+  const msg = stickerBit
+    ? ""
+    : cleared
+      ? "连对两次，从错题本拿走了！"
+      : "读对了！得到一颗星星";
   celebrateEl.className = "celebrate show";
   celebrateEl.innerHTML = `
     <div class="celebrate-card">
       ${Pics.html(item, "celebrate-pics")}
       <div class="hanzi ${sizeClass}">${display}</div>
       ${extra}
+      ${stickerBit}
       <p>${msg}</p>
       <div class="actions" style="margin-top:14px">
         <button class="btn gold" id="hear-again">再听一遍</button>
-        <button class="btn" id="again">下一个</button>
+        <button class="btn" id="again">${stickerBit ? "收下" : "下一个"}</button>
       </div>
     </div>
   `;

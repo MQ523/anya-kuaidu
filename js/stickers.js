@@ -60,7 +60,7 @@ const Stickers = (() => {
 
   function awardIfReady(lessonId) {
     const current = row(lessonId);
-    if (!current.learned || !current.quiz || current.sticker) return null;
+    if (!current.quiz || current.sticker) return null;
     const used = new Set(earnedIds());
     const next = PACK.find((item) => !used.has(item.id));
     if (!next) return null;
