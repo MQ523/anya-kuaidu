@@ -3,9 +3,9 @@ const celebrateEl = document.getElementById("celebrate");
 const starEl = document.getElementById("star-count");
 const confettiCanvas = document.getElementById("confetti");
 const STAGE = {
-  char: { read: "看字朗读", tap: "听音点字", unit: "字", prompt: "先自己读这个字" },
-  word: { read: "看詞朗读", tap: "听音点詞", unit: "詞語", prompt: "先自己读这个词" },
-  sentence: { read: "看句朗读", tap: "听音点句", unit: "句子", prompt: "先自己读这句话" },
+  char: { read: "学习", tap: "测验", unit: "字", prompt: "先自己读这个字" },
+  word: { read: "学习", tap: "测验", unit: "詞語", prompt: "先自己读这个词" },
+  sentence: { read: "学习", tap: "测验", unit: "句子", prompt: "先自己读这句话" },
 };
 
 const state = {
@@ -20,6 +20,8 @@ const state = {
   showHint: false,
   missMode: false,
   queueIndex: 0,
+  quizOrder: [],
+  quizCorrect: 0,
 };
 
 function currentFilter() {
@@ -64,7 +66,15 @@ function startGame(mode, startAt) {
   state.missMode = false;
   state.mode = mode;
   state.screen = "play";
-  state.queueIndex = typeof startAt === "number" ? startAt : 0;
+  if (mode === "tap") {
+    state.quizOrder = shuffle(currentQueue());
+    state.queueIndex = 0;
+    state.quizCorrect = 0;
+  } else {
+    state.quizOrder = [];
+    state.quizCorrect = 0;
+    state.queueIndex = typeof startAt === "number" ? startAt : 0;
+  }
   nextItem(true);
 }
 
@@ -85,6 +95,17 @@ function stageOf(item) {
 
 function currentQueue() {
   return itemsFor(currentFilter(), state.stage);
+}
+
+function shuffle(list) {
+  const arr = list.slice();
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
 }
 
 function prevItem() {
@@ -122,7 +143,18 @@ function nextItem(reset) {
     state.item = queue[state.queueIndex];
     state.choices = pickChoices(state.item, currentFilter(), state.stage);
   } else {
-    state.item = pickItem(currentFilter(), state.stage, prev);
+    const queue = state.quizOrder;
+    if (!reset) state.queueIndex += 1;
+    if (!queue.length) {
+      goHome();
+      return;
+    }
+    if (state.queueIndex >= queue.length) {
+      state.screen = "quiz-done";
+      render();
+      return;
+    }
+    state.item = queue[state.queueIndex];
     state.choices = pickChoices(state.item, currentFilter(), state.stage);
   }
   state.status = "idle";
@@ -145,6 +177,11 @@ function render() {
   if (state.screen === "lesson-done") {
     appEl.innerHTML = lessonDoneHTML();
     bindLessonDone();
+    return;
+  }
+  if (state.screen === "quiz-done") {
+    appEl.innerHTML = quizDoneHTML();
+    bindQuizDone();
     return;
   }
   appEl.innerHTML = playHTML();
@@ -188,20 +225,17 @@ function homeHTML() {
       <button class="chip ${state.stage === "sentence" ? "active" : ""} ${hasSentences ? "" : "off"}" data-stage="sentence">句子</button>
     </div>
     ${rosterHTML(queue)}
-    <button class="mode-card" data-mode="read">
-      <span class="mode-icon">👀</span>
-      <span>
-        <h3>${labels.read}</h3>
-        <p>按顺序学完这 ${queue.length} 个${labels.unit}。可听，读对了得星星。</p>
-      </span>
-    </button>
-    <button class="mode-card" data-mode="tap">
-      <span class="mode-icon">👂</span>
+    ${
+      queue.length
+        ? `<button class="mode-card" data-mode="tap">
+      <span class="mode-icon">📝</span>
       <span>
         <h3>${labels.tap}</h3>
-        <p>电脑用广东话读，从几个选项里点出来。</p>
+        <p>听广东话，从几个选项里点出来。测这 ${queue.length} 个${labels.unit}会了没有。</p>
       </span>
-    </button>
+    </button>`
+        : ""
+    }
     ${missPanelHTML()}
     <section class="tips panel">
       <h3>怎么带她玩</h3>
@@ -210,9 +244,9 @@ function homeHTML() {
         <li>第一至六册按课认字；第七册是总复习；第八册是故事朗读。</li>
         <li>句子里金黄色的是关键词：书里出现过的詞語和生字。</li>
         <li>句子比较长，四岁读不全很正常。读对了就点「给星星」。</li>
-        <li>每一课先看这一课有哪些字。看字朗读按课本顺序学一遍。</li>
-        <li>看字时旁边是课本里的原图，不是抽象小图标。</li>
-        <li>答对的会少出现，常错的会多练。错题本可以专项练习。</li>
+        <li>每一课先看摘要里有哪些字。点字就开始学，按顺序听和跟读。</li>
+        <li>学完可以做测验：听广东话，点出那个字。</li>
+        <li>看字时旁边是课本里的原图。常错的会收进错题本。</li>
       </ol>
     </section>
   `;
@@ -247,14 +281,21 @@ function rosterHTML(queue) {
   return `
     <section class="roster-panel">
       <h3>${rosterTitle()} · ${queue.length} 个${unit}</h3>
-      <p>看${unit}朗读会按这个顺序学一遍。点下面的${unit}也可以从那里开始。</p>
+      <p>点下面的${unit}开始学。也可以从第一个按顺序学一遍。</p>
+      <button type="button" class="roster-go" data-start="0">从第一个开始学</button>
       <div class="roster-grid">${cells}${more}</div>
     </section>
   `;
 }
 
 function playProgressHTML() {
-  if (state.missMode || state.mode !== "read") return "";
+  if (state.missMode) return "";
+  if (state.mode === "tap") {
+    const total = state.quizOrder.length;
+    if (!total) return "";
+    return `<p class="progress">第 ${state.queueIndex + 1} / ${total} 题</p>`;
+  }
+  if (state.mode !== "read") return "";
   const queue = currentQueue();
   const total = queue.length;
   const now = state.queueIndex;
@@ -284,10 +325,10 @@ function lessonDoneHTML() {
     <section class="word-card miss-done">
       <div class="hanzi">⭐</div>
       <p class="pic-label">${total} 个${unit}都过完了</p>
-      <p class="words">可以再按顺序来一遍，或换成听音点${unit}。</p>
+      <p class="words">可以再学一遍，或做一做测验。</p>
       <div class="actions">
-        <button class="btn gold" id="again-seq">再来一遍</button>
-        <button class="btn" id="go-tap">听音点${unit}</button>
+        <button class="btn gold" id="again-seq">再学一遍</button>
+        <button class="btn" id="go-tap">去做测验</button>
       </div>
     </section>
   `;
@@ -297,6 +338,35 @@ function bindLessonDone() {
   document.getElementById("back").onclick = goHome;
   document.getElementById("again-seq").onclick = () => startGame("read", 0);
   document.getElementById("go-tap").onclick = () => startGame("tap");
+}
+
+function quizDoneHTML() {
+  const total = state.quizOrder.length;
+  const ok = state.quizCorrect;
+  const unit = STAGE[state.stage].unit;
+  const all = total && ok === total;
+  return `
+    <div class="game-header">
+      <button class="back" id="back">← 返回</button>
+      <strong>测验</strong>
+      <span></span>
+    </div>
+    <section class="word-card miss-done">
+      <div class="hanzi">${all ? "⭐" : "📝"}</div>
+      <p class="pic-label">${all ? "全对了！" : "测验完成"}</p>
+      <p class="words">答对 ${ok} / ${total} 个${unit}。</p>
+      <div class="actions">
+        <button class="btn gold" id="quiz-again">再测一次</button>
+        <button class="btn" id="quiz-home">回首页</button>
+      </div>
+    </section>
+  `;
+}
+
+function bindQuizDone() {
+  document.getElementById("back").onclick = goHome;
+  document.getElementById("quiz-again").onclick = () => startGame("tap");
+  document.getElementById("quiz-home").onclick = goHome;
 }
 
 function missPanelHTML() {
@@ -324,8 +394,7 @@ function missPanelHTML() {
       <p>常常出错的会收在这里。专项练习时会多出现几次，连对两次就拿走。</p>
       <div class="miss-pills">${pills}</div>
       <div class="miss-actions">
-        <button class="btn gold" data-miss-mode="tap">听音点 · 专项</button>
-        <button class="btn" data-miss-mode="read">看字读 · 专项</button>
+        <button class="btn gold" data-miss-mode="tap">错题测验</button>
       </div>
     </section>
   `;
@@ -431,7 +500,7 @@ function readHTML() {
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
-      <strong>${state.missMode ? "错题专项 · " : ""}${STAGE[state.stage].read}</strong>
+      <strong>${state.missMode ? "错题跟读 · " : rosterTitle()}</strong>
       <span></span>
     </div>
     ${playProgressHTML()}
@@ -465,14 +534,15 @@ function tapHTML() {
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
-      <strong>${state.missMode ? "错题专项 · " : ""}${STAGE[state.stage].tap}</strong>
-      <button class="ghost" id="skip">换一个</button>
+      <strong>${state.missMode ? "错题测验" : "测验"}</strong>
+      <button class="ghost" id="skip">${state.missMode ? "换一个" : "跳过"}</button>
     </div>
+    ${playProgressHTML()}
     <p class="coach" id="coach">先听广东话，再点那个${STAGE[state.stage].unit}。</p>
     <section class="word-card">
       <div class="tap-grid">${cards}</div>
       <div class="actions">
-        <button class="listen-btn" id="listen">🔊 再听一次</button>
+        <button class="listen-btn" id="listen">再听一次</button>
       </div>
       <p class="hint">家长提示：${state.item.hint}</p>
     </section>
@@ -532,6 +602,7 @@ function bindPlay() {
 }
 
 function succeed(item) {
+  if (state.mode === "tap" && !state.missMode) state.quizCorrect += 1;
   const row = Stats.record(item, true);
   const cleared = state.missMode && row.streak >= 2;
   addStar();
