@@ -1,0 +1,2250 @@
+[
+  {
+    "file": "b1p06_00.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p06_01.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p06_02.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p06_03.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p06_04.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p06_05.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b1p06_06.jpg",
+    "book": 1,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 6
+  },
+  {
+    "file": "b1p09_00.jpg",
+    "book": 1,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p09_01.jpg",
+    "book": 1,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p09_02.jpg",
+    "book": 1,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p09_03.jpg",
+    "book": 1,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p09_04.jpg",
+    "book": 1,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p09_05.jpg",
+    "book": 1,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b1p12_00.jpg",
+    "book": 1,
+    "page": 12,
+    "kind": "word",
+    "lesson": 3,
+    "index": 0
+  },
+  {
+    "file": "b1p12_01.jpg",
+    "book": 1,
+    "page": 12,
+    "kind": "word",
+    "lesson": 3,
+    "index": 1
+  },
+  {
+    "file": "b1p12_02.jpg",
+    "book": 1,
+    "page": 12,
+    "kind": "word",
+    "lesson": 3,
+    "index": 2
+  },
+  {
+    "file": "b1p12_03.jpg",
+    "book": 1,
+    "page": 12,
+    "kind": "word",
+    "lesson": 3,
+    "index": 3
+  },
+  {
+    "file": "b1p12_04.jpg",
+    "book": 1,
+    "page": 12,
+    "kind": "word",
+    "lesson": 3,
+    "index": 4
+  },
+  {
+    "file": "b1p15_00.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 0
+  },
+  {
+    "file": "b1p15_01.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 1
+  },
+  {
+    "file": "b1p15_02.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 2
+  },
+  {
+    "file": "b1p15_03.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 3
+  },
+  {
+    "file": "b1p15_04.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 4
+  },
+  {
+    "file": "b1p15_05.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 5
+  },
+  {
+    "file": "b1p15_06.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 6
+  },
+  {
+    "file": "b1p15_07.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 7
+  },
+  {
+    "file": "b1p15_08.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 8
+  },
+  {
+    "file": "b1p15_09.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 9
+  },
+  {
+    "file": "b1p15_10.jpg",
+    "book": 1,
+    "page": 15,
+    "kind": "word",
+    "lesson": 4,
+    "index": 10
+  },
+  {
+    "file": "b1p17_00.jpg",
+    "book": 1,
+    "page": 17,
+    "kind": "sentence",
+    "lesson": 4,
+    "index": 0
+  },
+  {
+    "file": "b1p17_01.jpg",
+    "book": 1,
+    "page": 17,
+    "kind": "sentence",
+    "lesson": 4,
+    "index": 1
+  },
+  {
+    "file": "b1p17_02.jpg",
+    "book": 1,
+    "page": 17,
+    "kind": "sentence",
+    "lesson": 4,
+    "index": 2
+  },
+  {
+    "file": "b1p17_03.jpg",
+    "book": 1,
+    "page": 17,
+    "kind": "sentence",
+    "lesson": 4,
+    "index": 3
+  },
+  {
+    "file": "b1p17_04.jpg",
+    "book": 1,
+    "page": 17,
+    "kind": "sentence",
+    "lesson": 4,
+    "index": 4
+  },
+  {
+    "file": "b1p17_05.jpg",
+    "book": 1,
+    "page": 17,
+    "kind": "sentence",
+    "lesson": 4,
+    "index": 5
+  },
+  {
+    "file": "b1p21_00.jpg",
+    "book": 1,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p21_01.jpg",
+    "book": 1,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p21_02.jpg",
+    "book": 1,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p21_03.jpg",
+    "book": 1,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p21_04.jpg",
+    "book": 1,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p23_00.jpg",
+    "book": 1,
+    "page": 23,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p23_01.jpg",
+    "book": 1,
+    "page": 23,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p23_02.jpg",
+    "book": 1,
+    "page": 23,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p23_03.jpg",
+    "book": 1,
+    "page": 23,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p23_04.jpg",
+    "book": 1,
+    "page": 23,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p26_00.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 0
+  },
+  {
+    "file": "b1p26_01.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 1
+  },
+  {
+    "file": "b1p26_02.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 2
+  },
+  {
+    "file": "b1p26_03.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 3
+  },
+  {
+    "file": "b1p26_04.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 4
+  },
+  {
+    "file": "b1p26_05.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 5
+  },
+  {
+    "file": "b1p26_06.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 6
+  },
+  {
+    "file": "b1p26_07.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 7
+  },
+  {
+    "file": "b1p26_08.jpg",
+    "book": 1,
+    "page": 26,
+    "kind": "word",
+    "lesson": 6,
+    "index": 8
+  },
+  {
+    "file": "b1p30_00.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p30_01.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p30_02.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p30_03.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p30_04.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p30_05.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b1p30_06.jpg",
+    "book": 1,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 6
+  },
+  {
+    "file": "b1p32_00.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 0
+  },
+  {
+    "file": "b1p32_01.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 1
+  },
+  {
+    "file": "b1p32_02.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 2
+  },
+  {
+    "file": "b1p32_03.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 3
+  },
+  {
+    "file": "b1p32_04.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 4
+  },
+  {
+    "file": "b1p32_05.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 5
+  },
+  {
+    "file": "b1p32_06.jpg",
+    "book": 1,
+    "page": 32,
+    "kind": "word",
+    "lesson": 7,
+    "index": 6
+  },
+  {
+    "file": "b1p36_00.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p36_01.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p36_02.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p36_03.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p36_04.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p36_05.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b1p36_06.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 6
+  },
+  {
+    "file": "b1p36_07.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 7
+  },
+  {
+    "file": "b1p36_08.jpg",
+    "book": 1,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 8
+  },
+  {
+    "file": "b1p38_00.jpg",
+    "book": 1,
+    "page": 38,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p38_01.jpg",
+    "book": 1,
+    "page": 38,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p38_02.jpg",
+    "book": 1,
+    "page": 38,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p38_03.jpg",
+    "book": 1,
+    "page": 38,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p38_04.jpg",
+    "book": 1,
+    "page": 38,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p41_00.jpg",
+    "book": 1,
+    "page": 41,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p41_01.jpg",
+    "book": 1,
+    "page": 41,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p41_02.jpg",
+    "book": 1,
+    "page": 41,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p43_00.jpg",
+    "book": 1,
+    "page": 43,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p43_01.jpg",
+    "book": 1,
+    "page": 43,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p43_02.jpg",
+    "book": 1,
+    "page": 43,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p43_03.jpg",
+    "book": 1,
+    "page": 43,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p43_04.jpg",
+    "book": 1,
+    "page": 43,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p46_00.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 0
+  },
+  {
+    "file": "b1p46_01.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 1
+  },
+  {
+    "file": "b1p46_02.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 2
+  },
+  {
+    "file": "b1p46_03.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 3
+  },
+  {
+    "file": "b1p46_04.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 4
+  },
+  {
+    "file": "b1p46_05.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 5
+  },
+  {
+    "file": "b1p46_06.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 6
+  },
+  {
+    "file": "b1p46_07.jpg",
+    "book": 1,
+    "page": 46,
+    "kind": "word",
+    "lesson": 10,
+    "index": 7
+  },
+  {
+    "file": "b1p48_00.jpg",
+    "book": 1,
+    "page": 48,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p48_01.jpg",
+    "book": 1,
+    "page": 48,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p48_02.jpg",
+    "book": 1,
+    "page": 48,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p48_03.jpg",
+    "book": 1,
+    "page": 48,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p48_04.jpg",
+    "book": 1,
+    "page": 48,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p48_05.jpg",
+    "book": 1,
+    "page": 48,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b1p51_00.jpg",
+    "book": 1,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p51_01.jpg",
+    "book": 1,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p51_02.jpg",
+    "book": 1,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p51_03.jpg",
+    "book": 1,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p51_04.jpg",
+    "book": 1,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p52_00.jpg",
+    "book": 1,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p52_01.jpg",
+    "book": 1,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p52_02.jpg",
+    "book": 1,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p52_03.jpg",
+    "book": 1,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p52_04.jpg",
+    "book": 1,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p53_00.jpg",
+    "book": 1,
+    "page": 53,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p53_01.jpg",
+    "book": 1,
+    "page": 53,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p53_02.jpg",
+    "book": 1,
+    "page": 53,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p53_03.jpg",
+    "book": 1,
+    "page": 53,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p56_00.jpg",
+    "book": 1,
+    "page": 56,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p56_01.jpg",
+    "book": 1,
+    "page": 56,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p56_02.jpg",
+    "book": 1,
+    "page": 56,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p56_03.jpg",
+    "book": 1,
+    "page": 56,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p56_04.jpg",
+    "book": 1,
+    "page": 56,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p57_00.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b1p57_01.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b1p57_02.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b1p57_03.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b1p57_04.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b1p57_05.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b1p57_06.jpg",
+    "book": 1,
+    "page": 57,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 6
+  },
+  {
+    "file": "b2p07_00.jpg",
+    "book": 2,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p07_01.jpg",
+    "book": 2,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p07_02.jpg",
+    "book": 2,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p07_03.jpg",
+    "book": 2,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p07_04.jpg",
+    "book": 2,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p11_00.jpg",
+    "book": 2,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p11_01.jpg",
+    "book": 2,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p11_02.jpg",
+    "book": 2,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p11_03.jpg",
+    "book": 2,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p11_04.jpg",
+    "book": 2,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p11_05.jpg",
+    "book": 2,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b2p17_00.jpg",
+    "book": 2,
+    "page": 17,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p17_01.jpg",
+    "book": 2,
+    "page": 17,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p17_02.jpg",
+    "book": 2,
+    "page": 17,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p17_03.jpg",
+    "book": 2,
+    "page": 17,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p17_04.jpg",
+    "book": 2,
+    "page": 17,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p17_05.jpg",
+    "book": 2,
+    "page": 17,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b2p21_00.jpg",
+    "book": 2,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p21_01.jpg",
+    "book": 2,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p21_02.jpg",
+    "book": 2,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p21_03.jpg",
+    "book": 2,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p21_04.jpg",
+    "book": 2,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p21_05.jpg",
+    "book": 2,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b2p24_00.jpg",
+    "book": 2,
+    "page": 24,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p24_01.jpg",
+    "book": 2,
+    "page": 24,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p25_00.jpg",
+    "book": 2,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p25_01.jpg",
+    "book": 2,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p25_02.jpg",
+    "book": 2,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p26_00.jpg",
+    "book": 2,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p26_01.jpg",
+    "book": 2,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p26_02.jpg",
+    "book": 2,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p26_03.jpg",
+    "book": 2,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p26_04.jpg",
+    "book": 2,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p26_05.jpg",
+    "book": 2,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b2p30_00.jpg",
+    "book": 2,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p30_01.jpg",
+    "book": 2,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p30_02.jpg",
+    "book": 2,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p30_03.jpg",
+    "book": 2,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p30_04.jpg",
+    "book": 2,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p30_05.jpg",
+    "book": 2,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b2p31_00.jpg",
+    "book": 2,
+    "page": 31,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p31_01.jpg",
+    "book": 2,
+    "page": 31,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p34_00.jpg",
+    "book": 2,
+    "page": 34,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p34_01.jpg",
+    "book": 2,
+    "page": 34,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p39_00.jpg",
+    "book": 2,
+    "page": 39,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p40_00.jpg",
+    "book": 2,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p40_01.jpg",
+    "book": 2,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p40_02.jpg",
+    "book": 2,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p40_03.jpg",
+    "book": 2,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p40_04.jpg",
+    "book": 2,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p43_00.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p43_01.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p43_02.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p43_03.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p43_04.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 4
+  },
+  {
+    "file": "b2p43_05.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 5
+  },
+  {
+    "file": "b2p43_06.jpg",
+    "book": 2,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 6
+  },
+  {
+    "file": "b2p44_00.jpg",
+    "book": 2,
+    "page": 44,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p44_01.jpg",
+    "book": 2,
+    "page": 44,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p44_02.jpg",
+    "book": 2,
+    "page": 44,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p44_03.jpg",
+    "book": 2,
+    "page": 44,
+    "kind": "word",
+    "lesson": null,
+    "index": 3
+  },
+  {
+    "file": "b2p47_00.jpg",
+    "book": 2,
+    "page": 47,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p47_01.jpg",
+    "book": 2,
+    "page": 47,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p47_02.jpg",
+    "book": 2,
+    "page": 47,
+    "kind": "word",
+    "lesson": null,
+    "index": 2
+  },
+  {
+    "file": "b2p48_00.jpg",
+    "book": 2,
+    "page": 48,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p48_01.jpg",
+    "book": 2,
+    "page": 48,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p51_00.jpg",
+    "book": 2,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b2p51_01.jpg",
+    "book": 2,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b2p52_00.jpg",
+    "book": 2,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p06_00.jpg",
+    "book": 3,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p10_00.jpg",
+    "book": 3,
+    "page": 10,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p11_00.jpg",
+    "book": 3,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p14_00.jpg",
+    "book": 3,
+    "page": 14,
+    "kind": "sentence",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p15_00.jpg",
+    "book": 3,
+    "page": 15,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p19_00.jpg",
+    "book": 3,
+    "page": 19,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p22_00.jpg",
+    "book": 3,
+    "page": 22,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p25_00.jpg",
+    "book": 3,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p25_01.jpg",
+    "book": 3,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b3p26_00.jpg",
+    "book": 3,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p30_00.jpg",
+    "book": 3,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p35_00.jpg",
+    "book": 3,
+    "page": 35,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p36_00.jpg",
+    "book": 3,
+    "page": 36,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p40_00.jpg",
+    "book": 3,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p41_00.jpg",
+    "book": 3,
+    "page": 41,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p48_00.jpg",
+    "book": 3,
+    "page": 48,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b3p49_00.jpg",
+    "book": 3,
+    "page": 49,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p06_00.jpg",
+    "book": 4,
+    "page": 6,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p07_00.jpg",
+    "book": 4,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p10_00.jpg",
+    "book": 4,
+    "page": 10,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p11_00.jpg",
+    "book": 4,
+    "page": 11,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p15_00.jpg",
+    "book": 4,
+    "page": 15,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p20_00.jpg",
+    "book": 4,
+    "page": 20,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p21_00.jpg",
+    "book": 4,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p21_01.jpg",
+    "book": 4,
+    "page": 21,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b4p26_00.jpg",
+    "book": 4,
+    "page": 26,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p28_00.jpg",
+    "book": 4,
+    "page": 28,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p32_00.jpg",
+    "book": 4,
+    "page": 32,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p34_00.jpg",
+    "book": 4,
+    "page": 34,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p34_01.jpg",
+    "book": 4,
+    "page": 34,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b4p38_00.jpg",
+    "book": 4,
+    "page": 38,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p40_00.jpg",
+    "book": 4,
+    "page": 40,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p45_00.jpg",
+    "book": 4,
+    "page": 45,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p46_00.jpg",
+    "book": 4,
+    "page": 46,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p49_00.jpg",
+    "book": 4,
+    "page": 49,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p50_00.jpg",
+    "book": 4,
+    "page": 50,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p52_00.jpg",
+    "book": 4,
+    "page": 52,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b4p63_00.jpg",
+    "book": 4,
+    "page": 63,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p07_00.jpg",
+    "book": 5,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p08_00.jpg",
+    "book": 5,
+    "page": 8,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p12_00.jpg",
+    "book": 5,
+    "page": 12,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p14_00.jpg",
+    "book": 5,
+    "page": 14,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p18_00.jpg",
+    "book": 5,
+    "page": 18,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p20_00.jpg",
+    "book": 5,
+    "page": 20,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p24_00.jpg",
+    "book": 5,
+    "page": 24,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p25_00.jpg",
+    "book": 5,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p30_00.jpg",
+    "book": 5,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p30_01.jpg",
+    "book": 5,
+    "page": 30,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b5p32_00.jpg",
+    "book": 5,
+    "page": 32,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p38_00.jpg",
+    "book": 5,
+    "page": 38,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p39_00.jpg",
+    "book": 5,
+    "page": 39,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p45_00.jpg",
+    "book": 5,
+    "page": 45,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p49_00.jpg",
+    "book": 5,
+    "page": 49,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p51_00.jpg",
+    "book": 5,
+    "page": 51,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p56_00.jpg",
+    "book": 5,
+    "page": 56,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p58_00.jpg",
+    "book": 5,
+    "page": 58,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p62_00.jpg",
+    "book": 5,
+    "page": 62,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p64_00.jpg",
+    "book": 5,
+    "page": 64,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p68_00.jpg",
+    "book": 5,
+    "page": 68,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b5p69_00.jpg",
+    "book": 5,
+    "page": 69,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p07_00.jpg",
+    "book": 6,
+    "page": 7,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p09_00.jpg",
+    "book": 6,
+    "page": 9,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p12_00.jpg",
+    "book": 6,
+    "page": 12,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p15_00.jpg",
+    "book": 6,
+    "page": 15,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p18_00.jpg",
+    "book": 6,
+    "page": 18,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p20_00.jpg",
+    "book": 6,
+    "page": 20,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p20_01.jpg",
+    "book": 6,
+    "page": 20,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b6p25_00.jpg",
+    "book": 6,
+    "page": 25,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p27_00.jpg",
+    "book": 6,
+    "page": 27,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p31_00.jpg",
+    "book": 6,
+    "page": 31,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p33_00.jpg",
+    "book": 6,
+    "page": 33,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p37_00.jpg",
+    "book": 6,
+    "page": 37,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p38_00.jpg",
+    "book": 6,
+    "page": 38,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p43_00.jpg",
+    "book": 6,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p43_01.jpg",
+    "book": 6,
+    "page": 43,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  },
+  {
+    "file": "b6p50_00.jpg",
+    "book": 6,
+    "page": 50,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p55_00.jpg",
+    "book": 6,
+    "page": 55,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p56_00.jpg",
+    "book": 6,
+    "page": 56,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p60_00.jpg",
+    "book": 6,
+    "page": 60,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p61_00.jpg",
+    "book": 6,
+    "page": 61,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p65_00.jpg",
+    "book": 6,
+    "page": 65,
+    "kind": "word",
+    "lesson": null,
+    "index": 0
+  },
+  {
+    "file": "b6p65_01.jpg",
+    "book": 6,
+    "page": 65,
+    "kind": "word",
+    "lesson": null,
+    "index": 1
+  }
+]

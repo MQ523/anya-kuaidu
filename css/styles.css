@@ -236,26 +236,23 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 10px;
+  gap: 10px;
+  margin: 0 0 12px;
 }
 
-.pic-bubble {
-  width: 72px;
-  height: 72px;
-  display: grid;
-  place-items: center;
-  border-radius: 22px;
-  background: linear-gradient(180deg, #fff 0%, #ffe9c4 100%);
+.pic-art {
+  height: 128px;
+  width: auto;
+  max-width: min(240px, 42vw);
+  object-fit: contain;
+  background: #fff;
+  border-radius: 20px;
   box-shadow: var(--shadow);
-  font-size: 40px;
-  line-height: 1;
-  animation: bob 2.6s ease-in-out infinite;
+  padding: 6px 8px;
 }
 
-.pic-svg {
-  width: 52px;
-  height: 52px;
+.celebrate-pics .pic-art {
+  height: 92px;
 }
 
 .pic-label {
@@ -264,17 +261,6 @@ button {
   color: var(--teal);
   font-weight: 800;
   font-size: 0.95rem;
-}
-
-.celebrate-pics .pic-bubble {
-  width: 56px;
-  height: 56px;
-  font-size: 30px;
-}
-
-.celebrate-pics .pic-svg {
-  width: 40px;
-  height: 40px;
 }
 
 .miss-panel {
