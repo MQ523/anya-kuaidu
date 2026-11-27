@@ -2,8 +2,6 @@ const appEl = document.getElementById("app");
 const celebrateEl = document.getElementById("celebrate");
 const starEl = document.getElementById("star-count");
 const confettiCanvas = document.getElementById("confetti");
-const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-
 const STAGE = {
   char: { read: "看字朗读", tap: "听音点字", unit: "字", prompt: "先自己读这个字" },
   word: { read: "看詞朗读", tap: "听音点詞", unit: "詞語", prompt: "先自己读这个词" },
@@ -19,7 +17,6 @@ const state = {
   item: null,
   choices: [],
   status: "idle",
-  heard: "",
   showHint: false,
   missMode: false,
   queueIndex: 0,
@@ -37,9 +34,6 @@ function lessonsInBook(book) {
   return LESSONS.filter((lesson) => lesson.book === book);
 }
 
-let recognizer = null;
-let recTimer = null;
-
 function todayKey() {
   return `kuaidu-stars-${new Date().toISOString().slice(0, 10)}`;
 }
@@ -55,26 +49,7 @@ function addStar() {
   return next;
 }
 
-function stopListening() {
-  if (recTimer) {
-    clearTimeout(recTimer);
-    recTimer = null;
-  }
-  if (recognizer) {
-    try {
-      recognizer.onresult = null;
-      recognizer.onerror = null;
-      recognizer.onend = null;
-      recognizer.stop();
-    } catch (err) {
-      /* already stopped */
-    }
-    recognizer = null;
-  }
-}
-
 function goHome() {
-  stopListening();
   AudioFx.stopSpeak();
   celebrateEl.className = "celebrate";
   celebrateEl.innerHTML = "";
@@ -112,8 +87,14 @@ function currentQueue() {
   return itemsFor(currentFilter(), state.stage);
 }
 
+function prevItem() {
+  if (state.missMode || state.mode !== "read") return;
+  if (state.queueIndex <= 0) return;
+  state.queueIndex -= 1;
+  nextItem(true);
+}
+
 function nextItem(reset) {
-  stopListening();
   AudioFx.stopSpeak();
   const prev = reset ? null : state.item && state.item.z;
   if (state.missMode) {
@@ -145,34 +126,8 @@ function nextItem(reset) {
     state.choices = pickChoices(state.item, currentFilter(), state.stage);
   }
   state.status = "idle";
-  state.heard = "";
   state.showHint = false;
   render();
-}
-
-function isMatch(transcripts, item) {
-  if (item.kind === "sentence") {
-    const chars = [...item.z].filter((ch) => /[\u4e00-\u9fff]/.test(ch));
-    const need = Math.min(4, Math.max(2, Math.ceil(chars.length * 0.5)));
-    return transcripts.some((raw) => {
-      const t = String(raw).replace(/\s/g, "");
-      const hit = chars.filter((ch) => t.includes(ch) || t.includes(toSimplified(ch))).length;
-      return hit >= need;
-    });
-  }
-  const needles = [item.z, item.s, item.jy, stripJyutping(item.jy)].filter(Boolean);
-  if (item.kind === "word") needles.push(toSimplified(item.z));
-  if (item.z === "媽" || item.z.includes("媽")) needles.push("妈妈", "媽媽", "妈");
-  if (item.z === "爸" || item.z.includes("爸")) needles.push("爸爸");
-  if (item.z.includes("爺")) needles.push("爷爷", "爺爺");
-  if (item.z.includes("奶")) needles.push("奶奶");
-  if (item.z === "的") needles.push("嘅");
-  if (item.z === "不") needles.push("唔");
-  return transcripts.some((raw) => {
-    const t = String(raw).replace(/\s/g, "");
-    const low = t.toLowerCase();
-    return needles.some((n) => t.includes(n) || low.includes(String(n).toLowerCase()));
-  });
 }
 
 function render() {
@@ -237,14 +192,14 @@ function homeHTML() {
       <span class="mode-icon">👀</span>
       <span>
         <h3>${labels.read}</h3>
-        <p>按顺序学完这 ${queue.length} 个${labels.unit}。可听、可录音，读对了得星星。</p>
+        <p>按顺序学完这 ${queue.length} 个${labels.unit}。可听，读对了得星星。</p>
       </span>
     </button>
     <button class="mode-card" data-mode="tap">
       <span class="mode-icon">👂</span>
       <span>
         <h3>${labels.tap}</h3>
-        <p>电脑用广东话读，从几个选项里点出来。录音不稳时更好玩。</p>
+        <p>电脑用广东话读，从几个选项里点出来。</p>
       </span>
     </button>
     ${missPanelHTML()}
@@ -463,8 +418,7 @@ function playHTML() {
 
 function readHTML() {
   const item = state.item;
-  const recording = state.status === "recording";
-  const showExtra = state.status === "tryagain" || state.showHint;
+  const showExtra = state.showHint;
   const pinyin = showExtra && item.kind === "char" ? item.jy : "";
   const words =
     showExtra && item.kind === "char"
@@ -472,27 +426,26 @@ function readHTML() {
       : STAGE[state.stage].prompt;
   const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
   const display = item.kind === "sentence" ? item.html : item.z;
+  const atFirst = state.missMode || state.queueIndex <= 0;
+  const nextLabel = state.missMode ? "换一个" : "下一个";
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
       <strong>${state.missMode ? "错题专项 · " : ""}${STAGE[state.stage].read}</strong>
-      <button class="ghost" id="skip">${state.missMode ? "换一个" : "下一个"}</button>
+      <span></span>
     </div>
     ${playProgressHTML()}
-    <p class="coach ${state.status === "tryagain" || state.status === "no-mic" ? "warn" : ""}" id="coach">${coachText()}</p>
+    <p class="coach" id="coach">${coachText()}</p>
     <section class="word-card">
       ${Pics.html(item)}
       <div class="hanzi ${sizeClass}">${display}</div>
       <p class="pinyin" id="pinyin">${pinyin}</p>
       <p class="words" id="words">${words}</p>
-      <div class="actions">
+      <div class="actions learn-nav">
+        <button class="nav-btn" id="prev" ${atFirst ? "disabled" : ""}>上一个</button>
         <button class="listen-btn" id="listen">🔊 听一听</button>
-        <div class="mic-wrap">
-          <button class="mic ${recording ? "recording" : ""}" id="mic">🎤</button>
-          <span class="mic-label">${recording ? "正在听…" : "录音"}</span>
-        </div>
+        <button class="nav-btn" id="next">${nextLabel}</button>
       </div>
-      <p class="heard" id="heard">${state.heard ? `电脑听到：${state.heard}` : ""}</p>
       <button class="parent-ok" id="parent-ok">读对了，给星星</button>
       <p class="hint">家长提示：${item.hint}</p>
     </section>
@@ -527,20 +480,17 @@ function tapHTML() {
 }
 
 function coachText() {
-  if (state.status === "recording") return `请大声读这个${STAGE[state.stage].unit}。`;
-  if (state.status === "tryagain") {
-    return state.heard
-      ? `电脑听到的是「${state.heard}」。再试一次，或先听一听。`
-      : "没有听清。再点麦克风，或先点「听一听」。";
-  }
-  if (state.status === "no-mic") return "没有麦克风权限。可以听一听跟读，读对了由爸爸妈妈点「给星星」。";
-  if (state.status === "no-engine") return "这个浏览器不太会判分。请用 Chrome，或读对后点「给星星」。";
-  return `先看这个${STAGE[state.stage].unit}，试着用广东话读出来。`;
+  return `先看这个${STAGE[state.stage].unit}，点「听一听」跟读。读对了由爸爸妈妈点「给星星」。`;
 }
 
 function bindPlay() {
   document.getElementById("back").onclick = goHome;
-  document.getElementById("skip").onclick = () => nextItem(false);
+  const skip = document.getElementById("skip");
+  if (skip) skip.onclick = () => nextItem(false);
+  const prev = document.getElementById("prev");
+  if (prev) prev.onclick = prevItem;
+  const next = document.getElementById("next");
+  if (next) next.onclick = () => nextItem(false);
   appEl.querySelectorAll("[data-jump]").forEach((btn) => {
     btn.onclick = () => {
       state.queueIndex = Number(btn.dataset.jump);
@@ -548,7 +498,6 @@ function bindPlay() {
     };
   });
   document.getElementById("listen").onclick = () => {
-    stopListening();
     state.showHint = true;
     if (state.mode === "read") {
       document.getElementById("pinyin").textContent = state.item.kind === "char" ? state.item.jy : "";
@@ -559,8 +508,6 @@ function bindPlay() {
     }
     AudioFx.speakChar(state.item);
   };
-  const mic = document.getElementById("mic");
-  if (mic) mic.onclick = toggleRecord;
   const parentOk = document.getElementById("parent-ok");
   if (parentOk) parentOk.onclick = () => succeed(state.item);
   appEl.querySelectorAll(".tap-card").forEach((btn) => {
@@ -584,119 +531,7 @@ function bindPlay() {
   if (state.mode === "tap") setTimeout(() => AudioFx.speakChar(state.item), 250);
 }
 
-function updateReadChrome() {
-  const coach = document.getElementById("coach");
-  const heard = document.getElementById("heard");
-  const mic = document.getElementById("mic");
-  const label = document.querySelector(".mic-label");
-  if (!coach) return;
-  coach.textContent = coachText();
-  coach.classList.toggle("warn", state.status === "tryagain" || state.status === "no-mic");
-  if (heard) heard.textContent = state.heard ? `电脑听到：${state.heard}` : "";
-  if (mic) mic.classList.toggle("recording", state.status === "recording");
-  if (label) label.textContent = state.status === "recording" ? "正在听…" : "录音";
-  if (state.status === "tryagain" && state.item.kind === "char") {
-    document.getElementById("pinyin").textContent = state.item.jy;
-    document.getElementById("words").textContent = phrasesForChar(state.item.z).slice(0, 6).join("　");
-  }
-}
-
-function toggleRecord() {
-  if (state.status === "recording") {
-    stopListening();
-    state.status = state.heard ? "tryagain" : "idle";
-    updateReadChrome();
-    return;
-  }
-  beginRecord();
-}
-
-function beginRecord() {
-  AudioFx.unlock();
-  AudioFx.stopSpeak();
-  if (!SpeechRec) {
-    state.status = "no-engine";
-    updateReadChrome();
-    return;
-  }
-  stopListening();
-  state.status = "recording";
-  state.heard = "";
-  updateReadChrome();
-
-  const rec = new SpeechRec();
-  recognizer = rec;
-  rec.lang = "zh-HK";
-  rec.interimResults = true;
-  rec.maxAlternatives = 5;
-  rec.continuous = false;
-
-  rec.onresult = (event) => {
-    const transcripts = [];
-    for (let i = 0; i < event.results.length; i += 1) {
-      for (let j = 0; j < event.results[i].length; j += 1) {
-        transcripts.push(event.results[i][j].transcript);
-      }
-    }
-    const last = event.results[event.results.length - 1];
-    state.heard = last[0].transcript;
-    updateReadChrome();
-    if (last.isFinal) finishRecord(transcripts);
-  };
-
-  rec.onerror = (event) => {
-    if (event.error === "not-allowed" || event.error === "service-not-allowed") state.status = "no-mic";
-    else if (event.error === "no-speech") {
-      state.status = "tryagain";
-      state.heard = "";
-    } else state.status = "tryagain";
-    updateReadChrome();
-  };
-
-  rec.onend = () => {
-    if (state.status === "recording") {
-      state.status = "tryagain";
-      updateReadChrome();
-    }
-  };
-
-  try {
-    rec.start();
-  } catch (err) {
-    rec.lang = "zh-HK";
-    try {
-      rec.start();
-    } catch (err2) {
-      state.status = "no-engine";
-      updateReadChrome();
-      return;
-    }
-  }
-
-  recTimer = setTimeout(() => {
-    if (state.status === "recording") {
-      try {
-        rec.stop();
-      } catch (err) {
-        /* ignore */
-      }
-    }
-  }, state.item && state.item.kind === "sentence" ? 8000 : 4000);
-}
-
-function finishRecord(transcripts) {
-  stopListening();
-  if (isMatch(transcripts, state.item)) {
-    succeed(state.item);
-    return;
-  }
-  Stats.record(state.item, false);
-  state.status = "tryagain";
-  updateReadChrome();
-}
-
 function succeed(item) {
-  stopListening();
   const row = Stats.record(item, true);
   const cleared = state.missMode && row.streak >= 2;
   addStar();
