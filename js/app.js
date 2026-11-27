@@ -21,6 +21,7 @@ const state = {
   status: "idle",
   heard: "",
   showHint: false,
+  missMode: false,
 };
 
 function currentFilter() {
@@ -74,6 +75,9 @@ function stopListening() {
 function goHome() {
   stopListening();
   AudioFx.stopSpeak();
+  celebrateEl.className = "celebrate";
+  celebrateEl.innerHTML = "";
+  state.missMode = false;
   state.screen = "home";
   render();
 }
@@ -81,17 +85,45 @@ function goHome() {
 function startGame(mode) {
   if (!lessonHasStage(currentFilter(), state.stage)) return;
   AudioFx.unlock();
+  state.missMode = false;
   state.mode = mode;
   state.screen = "play";
   nextItem(true);
 }
 
+function startMissGame(mode) {
+  if (!Stats.missItems().length) return;
+  AudioFx.unlock();
+  state.missMode = true;
+  state.mode = mode;
+  state.screen = "play";
+  nextItem(true);
+}
+
+function stageOf(item) {
+  if (item.kind === "word") return "word";
+  if (item.kind === "sentence") return "sentence";
+  return "char";
+}
+
 function nextItem(reset) {
   stopListening();
   AudioFx.stopSpeak();
-  const prev = state.item && state.item.z;
-  state.item = pickItem(currentFilter(), state.stage, reset ? null : prev);
-  state.choices = pickChoices(state.item, currentFilter(), state.stage);
+  const prev = reset ? null : state.item && state.item.z;
+  if (state.missMode) {
+    const picked = Stats.pickMiss(prev);
+    if (!picked) {
+      state.screen = "miss-done";
+      render();
+      return;
+    }
+    state.stage = stageOf(picked);
+    state.item = picked;
+    state.choices = pickChoices(picked, "mix", state.stage);
+  } else {
+    state.item = pickItem(currentFilter(), state.stage, prev);
+    state.choices = pickChoices(state.item, currentFilter(), state.stage);
+  }
   state.status = "idle";
   state.heard = "";
   state.showHint = false;
@@ -130,6 +162,11 @@ function render() {
     bindHome();
     return;
   }
+  if (state.screen === "miss-done") {
+    appEl.innerHTML = missDoneHTML();
+    bindMissDone();
+    return;
+  }
   appEl.innerHTML = playHTML();
   bindPlay();
 }
@@ -154,7 +191,7 @@ function homeHTML() {
   return `
     <section class="hero-card">
       <h2>字 → 詞 → 句</h2>
-      <p>八册《四五快讀／學前識字》原文：先认生字，再读詞語，再读句子和故事。<strong>听和读都是香港广东话</strong>。</p>
+      <p>八册《四五快讀／學前識字》原文：先认生字，再读詞語，再读句子和故事。字旁边有象形小图。<strong>听和读都是香港广东话</strong>。</p>
     </section>
     <div class="filters">
       ${bookChips}
@@ -183,6 +220,7 @@ function homeHTML() {
         <p>电脑用广东话读，从几个选项里点出来。录音不稳时更好玩。</p>
       </span>
     </button>
+    ${missPanelHTML()}
     <section class="tips panel">
       <h3>怎么带她玩</h3>
       <ol>
@@ -190,9 +228,66 @@ function homeHTML() {
         <li>第一至六册按课认字；第七册是总复习；第八册是故事朗读。</li>
         <li>句子里金黄色的是关键词：书里出现过的詞語和生字。</li>
         <li>句子比较长，四岁读不全很正常。读对了就点「给星星」。</li>
+        <li>答对的会少出现，常错的会多练。错题本可以专项练习。</li>
       </ol>
     </section>
   `;
+}
+
+function missPanelHTML() {
+  const list = Stats.missList();
+  if (!list.length) {
+    return `
+      <section class="miss-panel empty">
+        <h3>🎯 错题本</h3>
+        <p>还没有常错的字。答错两次以上会收进来，答对两次就会拿走。</p>
+      </section>
+    `;
+  }
+  const pills = list
+    .slice(0, 16)
+    .map(
+      ({ item, row }) =>
+        `<span class="miss-pill">${item.kind === "sentence" ? "句" : item.kind === "word" ? "詞" : "字"} ${escapeHtml(
+          item.z.length > 8 ? `${item.z.slice(0, 8)}…` : item.z
+        )} <em>${row.wrong}</em></span>`
+    )
+    .join("");
+  return `
+    <section class="miss-panel">
+      <h3>🎯 错题本 · ${list.length} 个常错</h3>
+      <p>常常出错的会收在这里。专项练习时会多出现几次，连对两次就拿走。</p>
+      <div class="miss-pills">${pills}</div>
+      <div class="miss-actions">
+        <button class="btn gold" data-miss-mode="tap">听音点 · 专项</button>
+        <button class="btn" data-miss-mode="read">看字读 · 专项</button>
+      </div>
+    </section>
+  `;
+}
+
+function missDoneHTML() {
+  return `
+    <div class="game-header">
+      <button class="back" id="back">← 返回</button>
+      <strong>错题本</strong>
+      <span></span>
+    </div>
+    <section class="word-card miss-done">
+      ${Pics.html({ kind: "char", z: "星" })}
+      <div class="hanzi">⭐</div>
+      <p class="pic-label">错题本清空了</p>
+      <p class="words">常错的都练会了。要不要再玩一课？</p>
+      <div class="actions">
+        <button class="btn gold" id="back-home">回首页</button>
+      </div>
+    </section>
+  `;
+}
+
+function bindMissDone() {
+  document.getElementById("back").onclick = goHome;
+  document.getElementById("back-home").onclick = goHome;
 }
 
 function bindHome() {
@@ -243,6 +338,9 @@ function bindHome() {
   appEl.querySelectorAll("[data-mode]").forEach((btn) => {
     btn.onclick = () => startGame(btn.dataset.mode);
   });
+  appEl.querySelectorAll("[data-miss-mode]").forEach((btn) => {
+    btn.onclick = () => startMissGame(btn.dataset.missMode);
+  });
 }
 
 function playHTML() {
@@ -264,11 +362,12 @@ function readHTML() {
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
-      <strong>${STAGE[state.stage].read}</strong>
+      <strong>${state.missMode ? "错题专项 · " : ""}${STAGE[state.stage].read}</strong>
       <button class="ghost" id="skip">换一个</button>
     </div>
     <p class="coach ${state.status === "tryagain" || state.status === "no-mic" ? "warn" : ""}" id="coach">${coachText()}</p>
     <section class="word-card">
+      ${Pics.html(item)}
       <div class="hanzi ${sizeClass}">${display}</div>
       <p class="pinyin" id="pinyin">${pinyin}</p>
       <p class="words" id="words">${words}</p>
@@ -299,7 +398,7 @@ function tapHTML() {
   return `
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
-      <strong>${STAGE[state.stage].tap}</strong>
+      <strong>${state.missMode ? "错题专项 · " : ""}${STAGE[state.stage].tap}</strong>
       <button class="ghost" id="skip">换一个</button>
     </div>
     <p class="coach" id="coach">先听广东话，再点那个${STAGE[state.stage].unit}。</p>
@@ -354,6 +453,7 @@ function bindPlay() {
         return;
       }
       btn.classList.add("wrong");
+      Stats.record(state.item, false);
       AudioFx.oops();
       setTimeout(() => {
         btn.classList.remove("wrong");
@@ -470,12 +570,15 @@ function finishRecord(transcripts) {
     succeed(state.item);
     return;
   }
+  Stats.record(state.item, false);
   state.status = "tryagain";
   updateReadChrome();
 }
 
 function succeed(item) {
   stopListening();
+  const row = Stats.record(item, true);
+  const cleared = state.missMode && row.streak >= 2;
   addStar();
   AudioFx.success();
   burstConfetti();
@@ -485,12 +588,14 @@ function succeed(item) {
       ? `<p>${item.jy || ""}</p><p>${phrasesForChar(item.z).slice(0, 6).join("　")}</p>`
       : "";
   const display = item.kind === "sentence" ? item.html : item.z;
+  const msg = cleared ? "连对两次，从错题本拿走了！" : "读对了！得到一颗星星";
   celebrateEl.className = "celebrate show";
   celebrateEl.innerHTML = `
     <div class="celebrate-card">
+      ${Pics.html(item, "celebrate-pics")}
       <div class="hanzi ${sizeClass}">${display}</div>
       ${extra}
-      <p>读对了！得到一颗星星</p>
+      <p>${msg}</p>
       <div class="actions" style="margin-top:14px">
         <button class="btn gold" id="hear-again">再听一遍</button>
         <button class="btn" id="again">下一个</button>

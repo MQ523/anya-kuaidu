@@ -1680,13 +1680,18 @@ function lessonHasStage(filter, stage) {
 
 function pickItem(filter, stage, avoid) {
   const pool = itemsFor(filter, stage).filter((item) => item.z !== avoid);
+  if (typeof Stats !== "undefined") {
+    return Stats.pickWeighted(pool) || itemsFor(filter, stage)[0];
+  }
   return pool[Math.floor(Math.random() * pool.length)] || itemsFor(filter, stage)[0];
 }
 
 function pickChoices(target, filter, stage) {
   const pool = itemsFor(filter, stage).filter((item) => item.z !== target.z);
   const want = target.kind === "sentence" ? 2 : 3;
-  const distractors = shuffle(pool).slice(0, want);
+  const near = pool.filter((item) => item.lesson === target.lesson);
+  const rest = pool.filter((item) => item.lesson !== target.lesson);
+  const distractors = shuffle(near).concat(shuffle(rest)).slice(0, want);
   return shuffle([target, ...distractors]);
 }
 

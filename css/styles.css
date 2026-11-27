@@ -231,6 +231,112 @@ button {
   text-align: center;
 }
 
+.pic-stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.pic-bubble {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fff 0%, #ffe9c4 100%);
+  box-shadow: var(--shadow);
+  font-size: 40px;
+  line-height: 1;
+  animation: bob 2.6s ease-in-out infinite;
+}
+
+.pic-svg {
+  width: 52px;
+  height: 52px;
+}
+
+.pic-label {
+  flex: 1 0 100%;
+  margin: 2px 0 0;
+  color: var(--teal);
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.celebrate-pics .pic-bubble {
+  width: 56px;
+  height: 56px;
+  font-size: 30px;
+}
+
+.celebrate-pics .pic-svg {
+  width: 40px;
+  height: 40px;
+}
+
+.miss-panel {
+  background: var(--paper);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 16px 18px 18px;
+  margin: 6px 0 12px;
+}
+
+.miss-panel.empty {
+  opacity: 0.88;
+}
+
+.miss-panel h3 {
+  margin: 0 0 6px;
+  font-family: "Fredoka", sans-serif;
+}
+
+.miss-panel p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.miss-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.miss-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fff4d4;
+  font-weight: 800;
+  font-size: 0.92rem;
+}
+
+.miss-pill em {
+  font-style: normal;
+  color: var(--coral);
+}
+
+.miss-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.miss-actions .btn {
+  flex: 1 1 140px;
+}
+
+.miss-done .hanzi {
+  font-size: 4.5rem;
+}
+
 .hanzi {
   font-family: "Noto Serif TC", "Songti TC", "Songti SC", serif;
   font-size: clamp(7rem, 28vw, 11rem);
@@ -468,6 +574,10 @@ button {
 @keyframes shake {
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
+}
+
+@keyframes bob {
+  50% { transform: translateY(-5px); }
 }
 
 @keyframes fadeIn {
