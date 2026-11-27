@@ -207,10 +207,6 @@ function homeHTML() {
   const labels = STAGE[state.stage];
   const queue = itemsFor(filter, state.stage);
   return `
-    <section class="hero-card">
-      <h2>字 → 詞 → 句</h2>
-      <p>八册《四五快讀／學前識字》原文：先认生字，再读詞語，再读句子和故事。旁边的图来自课本。<strong>听和读都是香港广东话</strong>。</p>
-    </section>
     <div class="filters">
       ${bookChips}
       <button class="chip ${state.book === "all" ? "active" : ""}" data-book="all">八册混合</button>
@@ -229,26 +225,11 @@ function homeHTML() {
       queue.length
         ? `<button class="mode-card" data-mode="tap">
       <span class="mode-icon">📝</span>
-      <span>
-        <h3>${labels.tap}</h3>
-        <p>听广东话，从几个选项里点出来。测这 ${queue.length} 个${labels.unit}会了没有。</p>
-      </span>
+      <h3>${labels.tap}</h3>
     </button>`
         : ""
     }
     ${missPanelHTML()}
-    <section class="tips panel">
-      <h3>怎么带她玩</h3>
-      <ol>
-        <li>生字、詞語、句子都来自你放进来的八册书，没有另外编写。</li>
-        <li>第一至六册按课认字；第七册是总复习；第八册是故事朗读。</li>
-        <li>句子里金黄色的是关键词：书里出现过的詞語和生字。</li>
-        <li>句子比较长，四岁读不全很正常。读对了就点「给星星」。</li>
-        <li>每一课先看摘要里有哪些字。点字就开始学，按顺序听和跟读。</li>
-        <li>学完可以做测验：听广东话，点出那个字。</li>
-        <li>看字时旁边是课本里的原图。常错的会收进错题本。</li>
-      </ol>
-    </section>
   `;
 }
 
@@ -281,7 +262,6 @@ function rosterHTML(queue) {
   return `
     <section class="roster-panel">
       <h3>${rosterTitle()} · ${queue.length} 个${unit}</h3>
-      <p>点下面的${unit}开始学。也可以从第一个按顺序学一遍。</p>
       <button type="button" class="roster-go" data-start="0">从第一个开始学</button>
       <div class="roster-grid">${cells}${more}</div>
     </section>
@@ -371,14 +351,7 @@ function bindQuizDone() {
 
 function missPanelHTML() {
   const list = Stats.missList();
-  if (!list.length) {
-    return `
-      <section class="miss-panel empty">
-        <h3>🎯 错题本</h3>
-        <p>还没有常错的字。答错两次以上会收进来，答对两次就会拿走。</p>
-      </section>
-    `;
-  }
+  if (!list.length) return "";
   const pills = list
     .slice(0, 16)
     .map(
@@ -390,8 +363,7 @@ function missPanelHTML() {
     .join("");
   return `
     <section class="miss-panel">
-      <h3>🎯 错题本 · ${list.length} 个常错</h3>
-      <p>常常出错的会收在这里。专项练习时会多出现几次，连对两次就拿走。</p>
+      <h3>错题本 · ${list.length}</h3>
       <div class="miss-pills">${pills}</div>
       <div class="miss-actions">
         <button class="btn gold" data-miss-mode="tap">错题测验</button>
@@ -490,9 +462,7 @@ function readHTML() {
   const showExtra = state.showHint;
   const pinyin = showExtra && item.kind === "char" ? item.jy : "";
   const words =
-    showExtra && item.kind === "char"
-      ? phrasesForChar(item.z).slice(0, 6).join("　") || STAGE[state.stage].prompt
-      : STAGE[state.stage].prompt;
+    showExtra && item.kind === "char" ? phrasesForChar(item.z).slice(0, 6).join("　") : "";
   const sizeClass = item.kind === "sentence" ? "sentence" : item.kind === "word" ? "word" : "";
   const display = item.kind === "sentence" ? item.html : item.z;
   const atFirst = state.missMode || state.queueIndex <= 0;
@@ -504,7 +474,6 @@ function readHTML() {
       <span></span>
     </div>
     ${playProgressHTML()}
-    <p class="coach" id="coach">${coachText()}</p>
     <section class="word-card">
       ${Pics.html(item)}
       <div class="hanzi ${sizeClass}">${display}</div>
@@ -538,7 +507,6 @@ function tapHTML() {
       <button class="ghost" id="skip">${state.missMode ? "换一个" : "跳过"}</button>
     </div>
     ${playProgressHTML()}
-    <p class="coach" id="coach">先听广东话，再点那个${STAGE[state.stage].unit}。</p>
     <section class="word-card">
       <div class="tap-grid">${cards}</div>
       <div class="actions">
@@ -547,10 +515,6 @@ function tapHTML() {
       <p class="hint">家长提示：${state.item.hint}</p>
     </section>
   `;
-}
-
-function coachText() {
-  return `先看这个${STAGE[state.stage].unit}，点「听一听」跟读。读对了由爸爸妈妈点「给星星」。`;
 }
 
 function bindPlay() {
@@ -572,9 +536,7 @@ function bindPlay() {
     if (state.mode === "read") {
       document.getElementById("pinyin").textContent = state.item.kind === "char" ? state.item.jy : "";
       document.getElementById("words").textContent =
-        state.item.kind === "char"
-          ? phrasesForChar(state.item.z).slice(0, 6).join("　")
-          : STAGE[state.stage].prompt;
+        state.item.kind === "char" ? phrasesForChar(state.item.z).slice(0, 6).join("　") : "";
     }
     AudioFx.speakChar(state.item);
   };

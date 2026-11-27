@@ -92,30 +92,11 @@ button {
   font-weight: 800;
 }
 
-.hero-card,
 .panel,
 .word-card {
   background: var(--paper);
   border-radius: 28px;
   box-shadow: var(--shadow);
-}
-
-.hero-card {
-  padding: 22px;
-  margin-bottom: 16px;
-}
-
-.hero-card h2 {
-  margin: 0 0 8px;
-  font-family: "Fredoka", sans-serif;
-  font-size: 1.55rem;
-}
-
-.hero-card p,
-.tips li {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.65;
 }
 
 .filters,
@@ -154,52 +135,31 @@ button {
 
 .mode-card {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
   width: 100%;
   text-align: left;
   border: 0;
   background: var(--paper);
   border-radius: 24px;
-  padding: 16px;
+  padding: 12px 16px;
   box-shadow: var(--shadow);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .mode-card h3 {
-  margin: 0 0 4px;
-  font-family: "Fredoka", sans-serif;
-}
-
-.mode-card p {
   margin: 0;
-  color: var(--muted);
+  font-family: "Fredoka", sans-serif;
 }
 
 .mode-icon {
-  flex: 0 0 56px;
-  height: 56px;
+  flex: 0 0 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
-  font-size: 28px;
+  border-radius: 14px;
+  font-size: 22px;
   background: #fff4d4;
-}
-
-.tips {
-  padding: 18px 20px;
-  margin-top: 16px;
-}
-
-.tips h3 {
-  margin: 0 0 8px;
-  font-family: "Fredoka", sans-serif;
-}
-
-.tips ol {
-  margin: 0;
-  padding-left: 18px;
-  color: var(--muted);
 }
 
 .game-header {
@@ -212,22 +172,6 @@ button {
 
 .game-header > span:empty {
   min-width: 4.5em;
-}
-
-.coach {
-  margin: 0 0 16px;
-  padding: 12px 16px;
-  background: #eef7f2;
-  color: #2f5d49;
-  border-radius: 18px;
-  font-weight: 700;
-  line-height: 1.5;
-  text-align: center;
-}
-
-.coach.warn {
-  background: #fff4d4;
-  color: #70531d;
 }
 
 .word-card {
@@ -275,19 +219,9 @@ button {
   margin: 6px 0 12px;
 }
 
-.miss-panel.empty {
-  opacity: 0.88;
-}
-
 .miss-panel h3 {
-  margin: 0 0 6px;
-  font-family: "Fredoka", sans-serif;
-}
-
-.miss-panel p {
   margin: 0 0 10px;
-  color: var(--muted);
-  line-height: 1.5;
+  font-family: "Fredoka", sans-serif;
 }
 
 .miss-pills {
@@ -336,14 +270,8 @@ button {
 }
 
 .roster-panel h3 {
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   font-family: "Fredoka", sans-serif;
-}
-
-.roster-panel p {
-  margin: 0 0 12px;
-  color: var(--muted);
-  line-height: 1.5;
 }
 
 .roster-go {
@@ -459,16 +387,19 @@ button {
 }
 
 .pinyin {
-  min-height: 1.4em;
-  margin: 0 0 8px;
+  margin: 0 0 4px;
   color: var(--gold);
   font-weight: 800;
   letter-spacing: 0.08em;
 }
 
+.pinyin:empty,
+.words:empty {
+  display: none;
+}
+
 .words {
-  min-height: 1.5em;
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   color: var(--muted);
   font-weight: 800;
   font-size: 1.15rem;
