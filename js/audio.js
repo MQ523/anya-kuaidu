@@ -161,12 +161,10 @@ const AudioFx = (() => {
 
   function success() {
     playClip(ding);
-    setTimeout(() => speak("啱喇", { rate: 1.05, pitch: 1.2 }), 80);
   }
 
   function oops() {
     playClip(buzz);
-    setTimeout(() => speak("唔啱", { rate: 1.02, pitch: 0.9 }), 80);
   }
 
   if (window.speechSynthesis) {
