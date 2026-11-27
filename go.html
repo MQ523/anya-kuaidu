@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <title>Anya 四五快讀</title>
+    <script>
+      (function () {
+        const synth = window.speechSynthesis;
+        if (!synth || synth.__blockCue) return;
+        synth.__blockCue = true;
+        const orig = synth.speak.bind(synth);
+        synth.speak = function (utter) {
+          const text = String((utter && utter.text) || "");
+          if (/啱/.test(text)) return;
+          return orig(utter);
+        };
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Noto+Serif+TC:wght@600;700&family=Nunito:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css?v=5" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo">📖</div>
+          <div>
+            <h1>Anya 四五快讀</h1>
+            <p>八冊原文 · 香港广东话 · 读对了得星星</p>
+          </div>
+        </div>
+        <div class="stars" id="star-count">⭐ 0</div>
+      </header>
+      <main id="app"></main>
+    </div>
+    <div class="celebrate" id="celebrate"></div>
+    <canvas class="confetti" id="confetti"></canvas>
+    <script src="js/chars.js?v=5"></script>
+    <script src="js/audio.js?v=5"></script>
+    <script src="js/app.js?v=5"></script>
+  </body>
+</html>

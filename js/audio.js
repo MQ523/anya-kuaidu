@@ -1,3 +1,15 @@
+(function blockCueSpeech() {
+  const synth = window.speechSynthesis;
+  if (!synth || synth.__blockCue) return;
+  synth.__blockCue = true;
+  const orig = synth.speak.bind(synth);
+  synth.speak = function (utter) {
+    const text = String((utter && utter.text) || "");
+    if (/啱/.test(text)) return;
+    return orig(utter);
+  };
+})();
+
 const AudioFx = (() => {
   let ctx = null;
   let generation = 0;
@@ -130,6 +142,7 @@ const AudioFx = (() => {
   }
 
   function speak(text, { lang = "zh-HK", rate = 0.78, pitch = 1.05 } = {}) {
+    if (/啱/.test(String(text || ""))) return Promise.resolve();
     stopSpeak();
     if (!window.speechSynthesis) return Promise.resolve();
     const utter = new SpeechSynthesisUtterance(text);
@@ -160,10 +173,12 @@ const AudioFx = (() => {
   }
 
   function success() {
+    stopSpeak();
     playClip(ding);
   }
 
   function oops() {
+    stopSpeak();
     playClip(buzz);
   }
 
