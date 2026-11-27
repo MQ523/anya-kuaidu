@@ -22,6 +22,7 @@ const state = {
   heard: "",
   showHint: false,
   missMode: false,
+  queueIndex: 0,
 };
 
 function currentFilter() {
@@ -82,12 +83,13 @@ function goHome() {
   render();
 }
 
-function startGame(mode) {
+function startGame(mode, startAt) {
   if (!lessonHasStage(currentFilter(), state.stage)) return;
   AudioFx.unlock();
   state.missMode = false;
   state.mode = mode;
   state.screen = "play";
+  state.queueIndex = typeof startAt === "number" ? startAt : 0;
   nextItem(true);
 }
 
@@ -106,6 +108,10 @@ function stageOf(item) {
   return "char";
 }
 
+function currentQueue() {
+  return itemsFor(currentFilter(), state.stage);
+}
+
 function nextItem(reset) {
   stopListening();
   AudioFx.stopSpeak();
@@ -120,6 +126,20 @@ function nextItem(reset) {
     state.stage = stageOf(picked);
     state.item = picked;
     state.choices = pickChoices(picked, "mix", state.stage);
+  } else if (state.mode === "read") {
+    const queue = currentQueue();
+    if (!reset) state.queueIndex += 1;
+    if (!queue.length) {
+      goHome();
+      return;
+    }
+    if (state.queueIndex >= queue.length) {
+      state.screen = "lesson-done";
+      render();
+      return;
+    }
+    state.item = queue[state.queueIndex];
+    state.choices = pickChoices(state.item, currentFilter(), state.stage);
   } else {
     state.item = pickItem(currentFilter(), state.stage, prev);
     state.choices = pickChoices(state.item, currentFilter(), state.stage);
@@ -167,6 +187,11 @@ function render() {
     bindMissDone();
     return;
   }
+  if (state.screen === "lesson-done") {
+    appEl.innerHTML = lessonDoneHTML();
+    bindLessonDone();
+    return;
+  }
   appEl.innerHTML = playHTML();
   bindPlay();
 }
@@ -188,6 +213,7 @@ function homeHTML() {
   const hasWords = lessonHasStage(filter, "word");
   const hasSentences = lessonHasStage(filter, "sentence");
   const labels = STAGE[state.stage];
+  const queue = itemsFor(filter, state.stage);
   return `
     <section class="hero-card">
       <h2>字 → 詞 → 句</h2>
@@ -206,11 +232,12 @@ function homeHTML() {
       <button class="chip ${state.stage === "word" ? "active" : ""} ${hasWords ? "" : "off"}" data-stage="word">詞語</button>
       <button class="chip ${state.stage === "sentence" ? "active" : ""} ${hasSentences ? "" : "off"}" data-stage="sentence">句子</button>
     </div>
+    ${rosterHTML(queue)}
     <button class="mode-card" data-mode="read">
       <span class="mode-icon">👀</span>
       <span>
         <h3>${labels.read}</h3>
-        <p>先看${labels.unit}，自己试着读。可听、可录音，读对了得星星。</p>
+        <p>按顺序学完这 ${queue.length} 个${labels.unit}。可听、可录音，读对了得星星。</p>
       </span>
     </button>
     <button class="mode-card" data-mode="tap">
@@ -228,11 +255,93 @@ function homeHTML() {
         <li>第一至六册按课认字；第七册是总复习；第八册是故事朗读。</li>
         <li>句子里金黄色的是关键词：书里出现过的詞語和生字。</li>
         <li>句子比较长，四岁读不全很正常。读对了就点「给星星」。</li>
+        <li>每一课先看这一课有哪些字。看字朗读按课本顺序学一遍。</li>
         <li>看字时旁边是课本里的原图，不是抽象小图标。</li>
         <li>答对的会少出现，常错的会多练。错题本可以专项练习。</li>
       </ol>
     </section>
   `;
+}
+
+function rosterTitle() {
+  if (typeof state.lesson === "number") {
+    const hit = LESSONS.find((lesson) => lesson.id === state.lesson);
+    return hit ? hit.title : "这一课";
+  }
+  if (state.book === "all") return "八册混合";
+  const book = BOOK_META.find((item) => item.id === state.book);
+  return book ? `${book.title}混合` : "本册混合";
+}
+
+function rosterHTML(queue) {
+  if (!queue.length) return "";
+  const unit = STAGE[state.stage].unit;
+  const maxShow = state.stage === "sentence" ? 12 : 40;
+  const shown = queue.slice(0, maxShow);
+  const more =
+    queue.length > maxShow ? `<span class="roster-more">还有 ${queue.length - maxShow} 个</span>` : "";
+  const cells = shown
+    .map((item, index) => {
+      const text =
+        item.kind === "sentence" && item.z.length > 12 ? `${item.z.slice(0, 12)}…` : item.z;
+      return `<button type="button" class="roster-item ${item.kind}" data-start="${index}">${escapeHtml(
+        text
+      )}</button>`;
+    })
+    .join("");
+  return `
+    <section class="roster-panel">
+      <h3>${rosterTitle()} · ${queue.length} 个${unit}</h3>
+      <p>看${unit}朗读会按这个顺序学一遍。点下面的${unit}也可以从那里开始。</p>
+      <div class="roster-grid">${cells}${more}</div>
+    </section>
+  `;
+}
+
+function playProgressHTML() {
+  if (state.missMode || state.mode !== "read") return "";
+  const queue = currentQueue();
+  const total = queue.length;
+  const now = state.queueIndex;
+  let mini = "";
+  if (state.stage === "char" && total && total <= 24) {
+    mini = `<div class="roster-mini">${queue
+      .map(
+        (item, index) =>
+          `<button type="button" class="roster-dot ${index === now ? "now" : ""}" data-jump="${index}">${escapeHtml(
+            item.z
+          )}</button>`
+      )
+      .join("")}</div>`;
+  }
+  return `<p class="progress">第 ${now + 1} / ${total} 个${STAGE[state.stage].unit}</p>${mini}`;
+}
+
+function lessonDoneHTML() {
+  const unit = STAGE[state.stage].unit;
+  const total = currentQueue().length;
+  return `
+    <div class="game-header">
+      <button class="back" id="back">← 返回</button>
+      <strong>${rosterTitle()}</strong>
+      <span></span>
+    </div>
+    <section class="word-card miss-done">
+      <div class="hanzi">⭐</div>
+      <p class="pic-label">${total} 个${unit}都过完了</p>
+      <p class="words">可以再按顺序来一遍，或换成听音点${unit}。</p>
+      <div class="actions">
+        <button class="btn gold" id="again-seq">再来一遍</button>
+        <button class="btn" id="go-tap">听音点${unit}</button>
+      </div>
+    </section>
+  `;
+}
+
+function bindLessonDone() {
+  document.getElementById("back").onclick = goHome;
+  document.getElementById("again-seq").onclick = () => startGame("read", 0);
+  document.getElementById("go-tap").onclick = () => startGame("tap");
 }
 
 function missPanelHTML() {
@@ -342,6 +451,9 @@ function bindHome() {
   appEl.querySelectorAll("[data-miss-mode]").forEach((btn) => {
     btn.onclick = () => startMissGame(btn.dataset.missMode);
   });
+  appEl.querySelectorAll("[data-start]").forEach((btn) => {
+    btn.onclick = () => startGame("read", Number(btn.dataset.start));
+  });
 }
 
 function playHTML() {
@@ -364,8 +476,9 @@ function readHTML() {
     <div class="game-header">
       <button class="back" id="back">← 返回</button>
       <strong>${state.missMode ? "错题专项 · " : ""}${STAGE[state.stage].read}</strong>
-      <button class="ghost" id="skip">换一个</button>
+      <button class="ghost" id="skip">${state.missMode ? "换一个" : "下一个"}</button>
     </div>
+    ${playProgressHTML()}
     <p class="coach ${state.status === "tryagain" || state.status === "no-mic" ? "warn" : ""}" id="coach">${coachText()}</p>
     <section class="word-card">
       ${Pics.html(item)}
@@ -428,6 +541,12 @@ function coachText() {
 function bindPlay() {
   document.getElementById("back").onclick = goHome;
   document.getElementById("skip").onclick = () => nextItem(false);
+  appEl.querySelectorAll("[data-jump]").forEach((btn) => {
+    btn.onclick = () => {
+      state.queueIndex = Number(btn.dataset.jump);
+      nextItem(true);
+    };
+  });
   document.getElementById("listen").onclick = () => {
     stopListening();
     state.showHint = true;
