@@ -167,8 +167,85 @@ function nextItem(reset) {
   render();
 }
 
+function applyBrand() {
+  const name = Profile.name();
+  const title = name ? `${name} 四五快讀` : "四五快讀";
+  const h1 = document.getElementById("kid-title");
+  if (h1) h1.textContent = title;
+  document.title = title;
+  Profile.applyTheme();
+}
+
+function setupHTML() {
+  const current = Profile.load();
+  const name = current.name || "";
+  const theme = current.theme || "peach";
+  const back = Profile.ready()
+    ? `<button class="back" id="setup-back">← 返回</button>`
+    : `<span></span>`;
+  const saveLabel = Profile.ready() ? "保存" : "开始学习";
+  const themes = Profile.THEMES.map(
+    (item) =>
+      `<button type="button" class="theme-pick ${item.id === theme ? "on" : ""}" data-theme="${item.id}"><i></i><span>${item.name}</span></button>`
+  ).join("");
+  return `
+    <div class="game-header">
+      ${back}
+      <strong>我的学习</strong>
+      <span></span>
+    </div>
+    <section class="setup-card">
+      <h2>小朋友叫什么名字？</h2>
+      <input id="kid-name" maxlength="8" value="${escapeHtml(name)}" placeholder="输入名字" autocomplete="off" />
+      <h3>选一个颜色</h3>
+      <div class="theme-row">${themes}</div>
+      <button class="btn gold" id="setup-save">${saveLabel}</button>
+    </section>
+  `;
+}
+
+function bindSetup() {
+  const input = document.getElementById("kid-name");
+  const back = document.getElementById("setup-back");
+  if (back) {
+    back.onclick = () => {
+      Profile.applyTheme();
+      goHome();
+    };
+  }
+  appEl.querySelectorAll("[data-theme]").forEach((btn) => {
+    btn.onclick = () => {
+      Profile.applyTheme(btn.dataset.theme);
+      appEl.querySelectorAll("[data-theme]").forEach((item) => item.classList.toggle("on", item === btn));
+    };
+  });
+  document.getElementById("setup-save").onclick = () => {
+    const name = input.value.trim();
+    if (!name) {
+      input.focus();
+      input.classList.add("warn");
+      return;
+    }
+    const picked = appEl.querySelector(".theme-pick.on");
+    Profile.set({ name, theme: picked ? picked.dataset.theme : Profile.theme() });
+    applyBrand();
+    goHome();
+  };
+  input.oninput = () => input.classList.remove("warn");
+  input.onkeydown = (e) => {
+    if (e.key === "Enter") document.getElementById("setup-save").click();
+  };
+  setTimeout(() => input && input.focus(), 200);
+}
+
 function render() {
+  applyBrand();
   starEl.textContent = `⭐ ${loadStars()}`;
+  if (state.screen === "setup") {
+    appEl.innerHTML = setupHTML();
+    bindSetup();
+    return;
+  }
   if (state.screen === "home") {
     appEl.innerHTML = homeHTML();
     bindHome();
@@ -249,7 +326,7 @@ function installHintHTML() {
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const text = ios
     ? "点 Safari 底部「分享」，再选「添加到主屏幕」，以后像 App 一样打开。"
-    : "用浏览器菜单把「Anya快讀」加到主屏幕，以后像 App 一样打开。";
+    : "用浏览器菜单把「四五快讀」加到主屏幕，以后像 App 一样打开。";
   return `<section class="install-hint"><p>${text}</p><button type="button" class="ghost" id="hide-install">知道了</button></section>`;
 }
 
@@ -711,7 +788,7 @@ function succeed(item) {
 function burstConfetti() {
   const ctx = confettiCanvas.getContext("2d");
   const pieces = [];
-  const colors = ["#e07a5f", "#e8a838", "#7eb89a", "#4c8d9e", "#f4d35e"];
+  const colors = Profile.confettiColors();
   const { width, height } = resizeConfetti();
   for (let i = 0; i < 70; i += 1) {
     pieces.push({
@@ -754,5 +831,11 @@ function resizeConfetti() {
 
 window.addEventListener("resize", resizeConfetti);
 document.addEventListener("pointerdown", () => AudioFx.unlock(), { once: true });
+document.getElementById("edit-profile").onclick = () => {
+  if (state.screen !== "home" && state.screen !== "setup") return;
+  state.screen = "setup";
+  render();
+};
 resizeConfetti();
+if (!Profile.ready()) state.screen = "setup";
 render();

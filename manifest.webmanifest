@@ -1,6 +1,6 @@
 {
-  "name": "Anya 四五快讀",
-  "short_name": "Anya快讀",
+  "name": "四五快讀",
+  "short_name": "四五快讀",
   "description": "四五快讀广东话认字",
   "start_url": "./go.html",
   "scope": "./",

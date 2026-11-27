@@ -1,4 +1,5 @@
-:root {
+:root,
+[data-theme="peach"] {
   --cream: #fff6ea;
   --paper: #fffdf8;
   --ink: #3d3a4a;
@@ -8,6 +9,144 @@
   --teal: #4c8d9e;
   --sage: #7eb89a;
   --shadow: 0 10px 30px rgba(90, 60, 40, 0.08);
+  --glow-1: #ffe7c7;
+  --glow-2: #fde0d4;
+  --glow-3: #dcefe4;
+  --logo-to: #ffe9c4;
+  --listen-shadow: #3b7382;
+  --nav-shadow: #d8cbb8;
+  --btn-shadow: #c45b43;
+  --gold-ink: #5c430b;
+  --gold-shadow: #c48c1f;
+  --hint-bg: #fff4d4;
+  --hint-ink: #70531d;
+  --phrase-bg: #fff4d4;
+  --slot-bg: #f4efe6;
+  --slot-ink: #c4b8a6;
+  --hint-muted: #9a8f7a;
+  --kw-ink: #9a6408;
+  --kw-bg: #ffe08a;
+  --confetti: #f4d35e;
+}
+
+[data-theme="sky"] {
+  --cream: #eef6ff;
+  --paper: #f7fbff;
+  --ink: #2c3d55;
+  --muted: #6a7d96;
+  --coral: #5aa6d6;
+  --gold: #f0c14b;
+  --teal: #3d8ebd;
+  --sage: #6db3c4;
+  --shadow: 0 10px 30px rgba(50, 80, 120, 0.1);
+  --glow-1: #d4e9ff;
+  --glow-2: #cfe4f8;
+  --glow-3: #d4f0ea;
+  --logo-to: #cfe4f8;
+  --listen-shadow: #2d6f96;
+  --nav-shadow: #c5d4e4;
+  --btn-shadow: #3d7eab;
+  --gold-ink: #5c430b;
+  --gold-shadow: #c49a24;
+  --hint-bg: #dff0ff;
+  --hint-ink: #2c5478;
+  --phrase-bg: #dff0ff;
+  --slot-bg: #e4eef6;
+  --slot-ink: #a8bcd0;
+  --hint-muted: #7a8fa3;
+  --kw-ink: #2c5478;
+  --kw-bg: #cfe4f8;
+  --confetti: #7ec8e3;
+}
+
+[data-theme="mint"] {
+  --cream: #eefaf3;
+  --paper: #f7fdf9;
+  --ink: #2d4a3e;
+  --muted: #6a8778;
+  --coral: #5bb89a;
+  --gold: #e2c15a;
+  --teal: #3d9a7a;
+  --sage: #7eb89a;
+  --shadow: 0 10px 30px rgba(40, 90, 60, 0.1);
+  --glow-1: #d4f3e4;
+  --glow-2: #e4f7c8;
+  --glow-3: #d4eef8;
+  --logo-to: #d4f3e4;
+  --listen-shadow: #2d7358;
+  --nav-shadow: #c5dccf;
+  --btn-shadow: #3d8a6e;
+  --gold-ink: #5c430b;
+  --gold-shadow: #c49a24;
+  --hint-bg: #def6ea;
+  --hint-ink: #2d5a45;
+  --phrase-bg: #def6ea;
+  --slot-bg: #e2f0e8;
+  --slot-ink: #9bb8a8;
+  --hint-muted: #7a9a88;
+  --kw-ink: #2d5a45;
+  --kw-bg: #c8edd8;
+  --confetti: #8fd4b0;
+}
+
+[data-theme="grape"] {
+  --cream: #f6f0ff;
+  --paper: #fbf8ff;
+  --ink: #3d3458;
+  --muted: #7a7096;
+  --coral: #8b7cc9;
+  --gold: #e8b86d;
+  --teal: #6b5ea8;
+  --sage: #9b8fd4;
+  --shadow: 0 10px 30px rgba(80, 50, 120, 0.1);
+  --glow-1: #e8dcff;
+  --glow-2: #f3d4f0;
+  --glow-3: #dce4ff;
+  --logo-to: #e8dcff;
+  --listen-shadow: #4e437e;
+  --nav-shadow: #d4cce8;
+  --btn-shadow: #6a5ca8;
+  --gold-ink: #5c430b;
+  --gold-shadow: #c49a24;
+  --hint-bg: #eee6ff;
+  --hint-ink: #4a3d78;
+  --phrase-bg: #eee6ff;
+  --slot-bg: #ebe4f4;
+  --slot-ink: #b0a4c8;
+  --hint-muted: #8a7ea3;
+  --kw-ink: #4a3d78;
+  --kw-bg: #e0d4ff;
+  --confetti: #c4b0f0;
+}
+
+[data-theme="berry"] {
+  --cream: #fff0f3;
+  --paper: #fff8f9;
+  --ink: #4a3040;
+  --muted: #8a6a78;
+  --coral: #e86b8a;
+  --gold: #f0b45a;
+  --teal: #d45f7e;
+  --sage: #e89ab0;
+  --shadow: 0 10px 30px rgba(120, 40, 70, 0.1);
+  --glow-1: #ffd6e0;
+  --glow-2: #ffe4d4;
+  --glow-3: #f3d4f0;
+  --logo-to: #ffd6e0;
+  --listen-shadow: #b34563;
+  --nav-shadow: #e8c8d0;
+  --btn-shadow: #c44d6c;
+  --gold-ink: #5c430b;
+  --gold-shadow: #c49a24;
+  --hint-bg: #ffe4ea;
+  --hint-ink: #7a3048;
+  --phrase-bg: #ffe4ea;
+  --slot-bg: #f6e4ea;
+  --slot-ink: #d0a8b4;
+  --hint-muted: #a37a88;
+  --kw-ink: #7a3048;
+  --kw-bg: #ffd0dc;
+  --confetti: #ffb0c4;
 }
 
 * {
@@ -20,9 +159,9 @@ body {
   margin: 0;
   min-height: 100%;
   background:
-    radial-gradient(circle at 12% 8%, #ffe7c7 0, transparent 28%),
-    radial-gradient(circle at 90% 0%, #fde0d4 0, transparent 26%),
-    radial-gradient(circle at 80% 100%, #dcefe4 0, transparent 30%),
+    radial-gradient(circle at 12% 8%, var(--glow-1) 0, transparent 28%),
+    radial-gradient(circle at 90% 0%, var(--glow-2) 0, transparent 26%),
+    radial-gradient(circle at 80% 100%, var(--glow-3) 0, transparent 30%),
     var(--cream);
   color: var(--ink);
   font-family: "Nunito", "PingFang TC", "PingFang SC", "Noto Serif TC", sans-serif;
@@ -52,10 +191,15 @@ button {
   margin-bottom: 16px;
 }
 
-.brand {
+.brand-btn {
   display: flex;
   align-items: center;
   gap: 10px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
 }
 
 .logo {
@@ -64,18 +208,20 @@ button {
   display: grid;
   place-items: center;
   border-radius: 16px;
-  background: linear-gradient(180deg, #fff 0%, #ffe9c4 100%);
+  background: linear-gradient(180deg, #fff 0%, var(--logo-to) 100%);
   box-shadow: var(--shadow);
   font-size: 26px;
 }
 
-.brand h1 {
+.brand h1,
+.brand-btn h1 {
   margin: 0;
   font-family: "Fredoka", "Nunito", sans-serif;
-  font-size: 1.35rem;
+  font-size: clamp(1.05rem, 4.6vw, 1.35rem);
 }
 
-.brand p {
+.brand p,
+.brand-btn p {
   margin: 2px 0 0;
   color: var(--muted);
   font-size: 0.86rem;
@@ -104,7 +250,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  background: #fff4d4;
+  background: var(--hint-bg);
   border-radius: 18px;
   padding: 12px 14px;
   margin: 0 0 14px;
@@ -112,7 +258,7 @@ button {
 
 .install-hint p {
   margin: 0;
-  color: #70531d;
+  color: var(--hint-ink);
   font-weight: 700;
   line-height: 1.45;
   font-size: 0.95rem;
@@ -178,7 +324,7 @@ button {
   place-items: center;
   border-radius: 14px;
   font-size: 22px;
-  background: #fff4d4;
+  background: var(--hint-bg);
 }
 
 .game-header {
@@ -256,7 +402,7 @@ button {
   gap: 6px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: #fff4d4;
+  background: var(--hint-bg);
   font-weight: 800;
   font-size: 0.92rem;
 }
@@ -310,9 +456,9 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f4efe6;
+  background: var(--slot-bg);
   border-radius: 18px;
-  color: #c4b8a6;
+  color: var(--slot-ink);
   font-weight: 800;
   font-size: 1.2rem;
   min-height: 72px;
@@ -369,7 +515,7 @@ button {
   margin: 0 0 12px;
   border: 0;
   background: var(--gold);
-  color: #5c430b;
+  color: var(--gold-ink);
   border-radius: 999px;
   padding: 8px 16px;
   font-weight: 800;
@@ -444,7 +590,7 @@ button {
 
 .roster-dot.now {
   background: var(--gold);
-  color: #5c430b;
+  color: var(--gold-ink);
 }
 
 .hanzi {
@@ -468,8 +614,8 @@ button {
 }
 
 .kw {
-  color: #9a6408;
-  background: #ffe08a;
+  color: var(--kw-ink);
+  background: var(--kw-bg);
   border-radius: 0.25em;
   padding: 0 0.08em;
   box-decoration-break: clone;
@@ -499,7 +645,7 @@ button {
 
 .phrase-chip {
   border: 0;
-  background: #fff4d4;
+  background: var(--phrase-bg);
   color: var(--ink);
   border-radius: 999px;
   padding: 8px 14px;
@@ -550,7 +696,7 @@ button {
 .nav-btn {
   background: #fff;
   color: var(--ink);
-  box-shadow: 0 5px 0 #d8cbb8;
+  box-shadow: 0 5px 0 var(--nav-shadow);
 }
 
 .nav-btn:disabled {
@@ -568,7 +714,7 @@ button {
   color: #fff;
   font-size: 0.95rem;
   font-weight: 800;
-  box-shadow: 0 5px 0 #3b7382;
+  box-shadow: 0 5px 0 var(--listen-shadow);
 }
 
 .parent-ok {
@@ -584,7 +730,7 @@ button {
 
 .hint {
   margin: 12px 0 0;
-  color: #9a8f7a;
+  color: var(--hint-muted);
   font-size: 0.9rem;
 }
 
@@ -634,13 +780,13 @@ button {
   font-weight: 800;
   color: #fff;
   background: var(--coral);
-  box-shadow: 0 8px 0 #c45b43;
+  box-shadow: 0 8px 0 var(--btn-shadow);
 }
 
 .btn.gold {
   background: var(--gold);
-  color: #5c430b;
-  box-shadow: 0 8px 0 #c48c1f;
+  color: var(--gold-ink);
+  box-shadow: 0 8px 0 var(--gold-shadow);
 }
 
 .celebrate {
@@ -713,6 +859,92 @@ button {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+
+.setup-card {
+  background: var(--paper);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 28px 20px 24px;
+  text-align: center;
+}
+
+.setup-card h2 {
+  margin: 0 0 16px;
+  font-family: "Fredoka", sans-serif;
+}
+
+.setup-card h3 {
+  margin: 22px 0 12px;
+  font-family: "Fredoka", sans-serif;
+}
+
+.setup-card input {
+  width: min(280px, 100%);
+  border: 0;
+  border-radius: 18px;
+  padding: 14px 16px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: center;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.setup-card input:focus {
+  outline: 3px solid var(--gold);
+}
+
+.setup-card input.warn {
+  outline: 3px solid var(--coral);
+}
+
+.setup-card .btn {
+  margin-top: 22px;
+  min-width: 180px;
+}
+
+.theme-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.theme-pick {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: 64px;
+}
+
+.theme-pick i {
+  display: block;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  box-shadow: var(--shadow);
+}
+
+.theme-pick.on i {
+  border-color: var(--ink);
+}
+
+.theme-pick span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.theme-pick[data-theme="peach"] i { background: #e07a5f; }
+.theme-pick[data-theme="sky"] i { background: #5aa6d6; }
+.theme-pick[data-theme="mint"] i { background: #5bb89a; }
+.theme-pick[data-theme="grape"] i { background: #8b7cc9; }
+.theme-pick[data-theme="berry"] i { background: #e86b8a; }
 
 #app {
   animation: fadeIn 0.3s ease;
