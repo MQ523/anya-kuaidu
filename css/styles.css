@@ -138,6 +138,11 @@ button {
   box-shadow: var(--shadow);
 }
 
+.filters .chip {
+  padding: 7px 12px;
+  font-size: 0.92rem;
+}
+
 .chip.active {
   background: var(--ink);
   color: #fff;

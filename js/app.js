@@ -12,6 +12,7 @@ const STAGE = {
 
 const state = {
   screen: "home",
+  book: 1,
   lesson: 1,
   stage: "char",
   mode: "read",
@@ -21,6 +22,18 @@ const state = {
   heard: "",
   showHint: false,
 };
+
+function currentFilter() {
+  if (state.book === "all") return "mix";
+  if (state.lesson === "mix") return `mix-${state.book}`;
+  return state.lesson;
+}
+
+function lessonsInBook(book) {
+  if (book === "all") return LESSONS;
+  if (book === 7) return LESSONS.filter((lesson) => lesson.book <= 6);
+  return LESSONS.filter((lesson) => lesson.book === book);
+}
 
 let recognizer = null;
 let recTimer = null;
@@ -66,7 +79,7 @@ function goHome() {
 }
 
 function startGame(mode) {
-  if (!lessonHasStage(state.lesson, state.stage)) return;
+  if (!lessonHasStage(currentFilter(), state.stage)) return;
   AudioFx.unlock();
   state.mode = mode;
   state.screen = "play";
@@ -77,8 +90,8 @@ function nextItem(reset) {
   stopListening();
   AudioFx.stopSpeak();
   const prev = state.item && state.item.z;
-  state.item = pickItem(state.lesson, state.stage, reset ? null : prev);
-  state.choices = pickChoices(state.item, state.lesson, state.stage);
+  state.item = pickItem(currentFilter(), state.stage, reset ? null : prev);
+  state.choices = pickChoices(state.item, currentFilter(), state.stage);
   state.status = "idle";
   state.heard = "";
   state.showHint = false;
@@ -122,24 +135,37 @@ function render() {
 }
 
 function homeHTML() {
-  const chips = LESSONS.map(
-    (lesson) =>
-      `<button class="chip ${state.lesson === lesson.id ? "active" : ""}" data-lesson="${lesson.id}">${lesson.title}</button>`
-  ).join("");
-  const hasWords = lessonHasStage(state.lesson, "word");
-  const hasSentences = lessonHasStage(state.lesson, "sentence");
+  const bookChips = BOOK_META.map((book) => {
+    const label = book.id === 7 ? "第七冊·總複習" : book.id === 8 ? "第八冊·故事" : book.title;
+    return `<button class="chip ${state.book === book.id ? "active" : ""}" data-book="${book.id}">${label}</button>`;
+  }).join("");
+  const inBook = lessonsInBook(state.book);
+  const lessonChips = inBook
+    .map(
+      (lesson) =>
+        `<button class="chip ${state.lesson === lesson.id ? "active" : ""}" data-lesson="${lesson.id}">${lesson.title}</button>`
+    )
+    .join("");
+  const filter = currentFilter();
+  const hasChars = lessonHasStage(filter, "char");
+  const hasWords = lessonHasStage(filter, "word");
+  const hasSentences = lessonHasStage(filter, "sentence");
   const labels = STAGE[state.stage];
   return `
     <section class="hero-card">
       <h2>字 → 詞 → 句</h2>
-      <p>按《四五快读》第一册：先认生字，再读詞語，第四课起读句子。<strong>听和读都是香港广东话</strong>。</p>
+      <p>八册《四五快讀／學前識字》原文：先认生字，再读詞語，再读句子和故事。<strong>听和读都是香港广东话</strong>。</p>
     </section>
     <div class="filters">
-      ${chips}
-      <button class="chip ${state.lesson === "mix" ? "active" : ""}" data-lesson="mix">全部混合</button>
+      ${bookChips}
+      <button class="chip ${state.book === "all" ? "active" : ""}" data-book="all">八册混合</button>
     </div>
     <div class="filters">
-      <button class="chip ${state.stage === "char" ? "active" : ""}" data-stage="char">生字</button>
+      ${lessonChips}
+      <button class="chip ${state.lesson === "mix" ? "active" : ""}" data-lesson="mix">本册混合</button>
+    </div>
+    <div class="filters">
+      <button class="chip ${state.stage === "char" ? "active" : ""} ${hasChars ? "" : "off"}" data-stage="char">生字</button>
       <button class="chip ${state.stage === "word" ? "active" : ""} ${hasWords ? "" : "off"}" data-stage="word">詞語</button>
       <button class="chip ${state.stage === "sentence" ? "active" : ""} ${hasSentences ? "" : "off"}" data-stage="sentence">句子</button>
     </div>
@@ -160,8 +186,8 @@ function homeHTML() {
     <section class="tips panel">
       <h3>怎么带她玩</h3>
       <ol>
-        <li>詞語和句子都来自《四五快读》第一册原文，没有另外编写。</li>
-        <li>第一至三课还没有句子，从第四课开始。最后一课是课後复习。</li>
+        <li>生字、詞語、句子都来自你放进来的八册书，没有另外编写。</li>
+        <li>第一至六册按课认字；第七册是总复习；第八册是故事朗读。</li>
         <li>句子里金黄色的是关键词：书里出现过的詞語和生字。</li>
         <li>句子比较长，四岁读不全很正常。读对了就点「给星星」。</li>
       </ol>
@@ -170,18 +196,46 @@ function homeHTML() {
 }
 
 function bindHome() {
+  appEl.querySelectorAll("[data-book]").forEach((btn) => {
+    btn.onclick = () => {
+      const value = btn.dataset.book;
+      state.book = value === "all" ? "all" : Number(value);
+      const pool = lessonsInBook(state.book);
+      state.lesson = pool[0] ? pool[0].id : "mix";
+      if (state.book === "all" || state.book === 7) state.lesson = "mix";
+      if (state.book === 8) state.stage = "sentence";
+      if (!lessonHasStage(currentFilter(), state.stage)) {
+        state.stage = lessonHasStage(currentFilter(), "char")
+          ? "char"
+          : lessonHasStage(currentFilter(), "word")
+            ? "word"
+            : "sentence";
+      }
+      render();
+    };
+  });
   appEl.querySelectorAll("[data-lesson]").forEach((btn) => {
     btn.onclick = () => {
       const value = btn.dataset.lesson;
       state.lesson = value === "mix" ? "mix" : Number(value);
-      if (!lessonHasStage(state.lesson, state.stage)) state.stage = "char";
+      if (typeof state.lesson === "number") {
+        const hit = LESSONS.find((item) => item.id === state.lesson);
+        if (hit) state.book = hit.book;
+      }
+      if (!lessonHasStage(currentFilter(), state.stage)) {
+        state.stage = lessonHasStage(currentFilter(), "char")
+          ? "char"
+          : lessonHasStage(currentFilter(), "word")
+            ? "word"
+            : "sentence";
+      }
       render();
     };
   });
   appEl.querySelectorAll("[data-stage]").forEach((btn) => {
     btn.onclick = () => {
       const stage = btn.dataset.stage;
-      if (!lessonHasStage(state.lesson, stage)) return;
+      if (!lessonHasStage(currentFilter(), stage)) return;
       state.stage = stage;
       render();
     };
