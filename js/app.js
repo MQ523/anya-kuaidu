@@ -22,6 +22,7 @@ const state = {
   queueIndex: 0,
   quizOrder: [],
   quizCorrect: 0,
+  justSticker: null,
 };
 
 function currentFilter() {
@@ -56,6 +57,7 @@ function goHome() {
   celebrateEl.className = "celebrate";
   celebrateEl.innerHTML = "";
   state.missMode = false;
+  state.justSticker = null;
   state.screen = "home";
   render();
 }
@@ -64,6 +66,7 @@ function startGame(mode, startAt) {
   if (!lessonHasStage(currentFilter(), state.stage)) return;
   AudioFx.unlock();
   state.missMode = false;
+  state.justSticker = null;
   state.mode = mode;
   state.screen = "play";
   if (mode === "tap") {
@@ -136,6 +139,7 @@ function nextItem(reset) {
       return;
     }
     if (state.queueIndex >= queue.length) {
+      state.justSticker = Stickers.markLearned(state.lesson);
       state.screen = "lesson-done";
       render();
       return;
@@ -150,6 +154,8 @@ function nextItem(reset) {
       return;
     }
     if (state.queueIndex >= queue.length) {
+      const perfect = state.quizCorrect === queue.length;
+      state.justSticker = perfect ? Stickers.markQuiz(state.lesson) : null;
       state.screen = "quiz-done";
       render();
       return;
@@ -229,8 +235,49 @@ function homeHTML() {
     </button>`
         : ""
     }
+    ${albumHTML()}
     ${missPanelHTML()}
   `;
+}
+
+function albumHTML() {
+  const items = Stickers.album();
+  const got = items.filter((item) => item.earned).length;
+  const cells = items
+    .map((item) => {
+      if (item.earned) {
+        return `<div class="sticker-slot on">${Stickers.img(item)}<em>${item.name}</em></div>`;
+      }
+      return `<div class="sticker-slot"><span>?</span></div>`;
+    })
+    .join("");
+  return `
+    <section class="sticker-album">
+      <h3>公主贴纸 ${got} / ${items.length}</h3>
+      <p>学完一课，测验全对，就送一张。</p>
+      <div class="sticker-grid">${cells}</div>
+    </section>
+  `;
+}
+
+function stickerNoteHTML() {
+  if (typeof state.lesson !== "number") return "";
+  if (state.justSticker) {
+    return `${Stickers.img(state.justSticker, "sticker-prize")}<p class="pic-label">送你一张「${state.justSticker.name}」贴纸</p>`;
+  }
+  const info = Stickers.status(state.lesson);
+  if (info && info.sticker) {
+    return `${Stickers.img(info.sticker, "sticker-prize tiny")}<p class="words">这一课的贴纸已经收下了</p>`;
+  }
+  if (state.screen === "lesson-done") {
+    return `<p class="words">去做测验，全对就送公主贴纸。</p>`;
+  }
+  if (state.screen === "quiz-done") {
+    const all = state.quizOrder.length && state.quizCorrect === state.quizOrder.length;
+    if (!all) return `<p class="words">全对才送贴纸，再测一次吧。</p>`;
+    if (info && !info.learned) return `<p class="words">先学完这一课，再测一次就能得贴纸。</p>`;
+  }
+  return "";
 }
 
 function rosterTitle() {
@@ -305,7 +352,7 @@ function lessonDoneHTML() {
     <section class="word-card miss-done">
       <div class="hanzi">⭐</div>
       <p class="pic-label">${total} 个${unit}都过完了</p>
-      <p class="words">可以再学一遍，或做一做测验。</p>
+      ${stickerNoteHTML()}
       <div class="actions">
         <button class="btn gold" id="again-seq">再学一遍</button>
         <button class="btn" id="go-tap">去做测验</button>
@@ -318,6 +365,7 @@ function bindLessonDone() {
   document.getElementById("back").onclick = goHome;
   document.getElementById("again-seq").onclick = () => startGame("read", 0);
   document.getElementById("go-tap").onclick = () => startGame("tap");
+  if (state.justSticker) burstConfetti();
 }
 
 function quizDoneHTML() {
@@ -335,6 +383,7 @@ function quizDoneHTML() {
       <div class="hanzi">${all ? "⭐" : "📝"}</div>
       <p class="pic-label">${all ? "全对了！" : "测验完成"}</p>
       <p class="words">答对 ${ok} / ${total} 个${unit}。</p>
+      ${stickerNoteHTML()}
       <div class="actions">
         <button class="btn gold" id="quiz-again">再测一次</button>
         <button class="btn" id="quiz-home">回首页</button>
@@ -347,6 +396,7 @@ function bindQuizDone() {
   document.getElementById("back").onclick = goHome;
   document.getElementById("quiz-again").onclick = () => startGame("tap");
   document.getElementById("quiz-home").onclick = goHome;
+  if (state.justSticker) burstConfetti();
 }
 
 function missPanelHTML() {

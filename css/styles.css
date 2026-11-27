@@ -261,6 +261,77 @@ button {
   font-size: 4.5rem;
 }
 
+.sticker-album {
+  background: var(--paper);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 16px 18px 18px;
+  margin: 0 0 12px;
+}
+
+.sticker-album h3 {
+  margin: 0 0 4px;
+  font-family: "Fredoka", sans-serif;
+}
+
+.sticker-album p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.sticker-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f4efe6;
+  border-radius: 18px;
+  color: #c4b8a6;
+  font-weight: 800;
+  font-size: 1.2rem;
+  min-height: 72px;
+  padding: 6px 4px 8px;
+}
+
+.sticker-slot.on {
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.sticker-slot img {
+  width: 86%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.sticker-slot em {
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.sticker-prize {
+  width: 148px;
+  height: 148px;
+  object-fit: contain;
+  margin: 6px auto;
+  animation: pop 0.45s ease;
+  filter: drop-shadow(0 8px 12px rgba(90, 60, 40, 0.16));
+}
+
+.sticker-prize.tiny {
+  width: 72px;
+  height: 72px;
+}
+
 .roster-panel {
   background: var(--paper);
   border-radius: 24px;
