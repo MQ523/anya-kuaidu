@@ -471,22 +471,28 @@ button {
 }
 
 .learn-nav {
-  gap: 10px;
+  gap: 8px;
   flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.nav-btn,
+.learn-nav .listen-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 118px;
+  height: 48px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
 .nav-btn {
-  flex: 0 0 auto;
-  min-width: 84px;
-  height: 72px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 22px;
   background: #fff;
   color: var(--ink);
-  font-size: 1.05rem;
-  font-weight: 800;
-  box-shadow: 0 8px 0 #d8cbb8;
+  box-shadow: 0 5px 0 #d8cbb8;
 }
 
 .nav-btn:disabled {
@@ -495,16 +501,16 @@ button {
 }
 
 .listen-btn {
-  flex: 1 1 auto;
-  min-width: 112px;
-  height: 72px;
+  min-width: 108px;
+  height: 48px;
+  padding: 0 16px;
   border: 0;
-  border-radius: 22px;
+  border-radius: 16px;
   background: var(--teal);
   color: #fff;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  box-shadow: 0 8px 0 #3b7382;
+  box-shadow: 0 5px 0 #3b7382;
 }
 
 .parent-ok {

@@ -443,7 +443,7 @@ function readHTML() {
       <p class="words" id="words">${words}</p>
       <div class="actions learn-nav">
         <button class="nav-btn" id="prev" ${atFirst ? "disabled" : ""}>上一个</button>
-        <button class="listen-btn" id="listen">🔊 听一听</button>
+        <button class="listen-btn" id="listen">听一听</button>
         <button class="nav-btn" id="next">${nextLabel}</button>
       </div>
       <button class="parent-ok" id="parent-ok">读对了，给星星</button>
