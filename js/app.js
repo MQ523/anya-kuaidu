@@ -358,7 +358,7 @@ function bindPlay() {
       setTimeout(() => {
         btn.classList.remove("wrong");
         AudioFx.speakChar(state.item);
-      }, 650);
+      }, 1100);
     };
   });
   if (state.mode === "tap") setTimeout(() => AudioFx.speakChar(state.item), 250);
@@ -507,7 +507,7 @@ function succeed(item) {
     celebrateEl.className = "celebrate";
     nextItem(false);
   };
-  setTimeout(replay, 520);
+  setTimeout(replay, 1100);
 }
 
 function burstConfetti() {

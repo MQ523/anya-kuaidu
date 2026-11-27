@@ -1,7 +1,84 @@
 const AudioFx = (() => {
   let ctx = null;
-  let unlocked = false;
   let generation = 0;
+  let clipsArmed = false;
+  const ding = makeClip(
+    [
+      [1046.5, 0, 0.18, 0.85],
+      [1318.5, 0.12, 0.2, 0.9],
+      [1568.0, 0.26, 0.28, 0.95],
+      [2093.0, 0.4, 0.22, 0.7],
+    ],
+    "sine"
+  );
+  const buzz = makeClip(
+    [
+      [392, 0, 0.22, 0.9],
+      [247, 0.16, 0.32, 0.95],
+    ],
+    "square"
+  );
+
+  function makeClip(notes, wave) {
+    const sr = 22050;
+    let end = 0;
+    notes.forEach(([, start, dur]) => {
+      end = Math.max(end, start + dur);
+    });
+    const count = Math.floor(sr * (end + 0.04));
+    const pcm = new Int16Array(count);
+    notes.forEach(([freq, start, dur, vol]) => {
+      const i0 = Math.floor(start * sr);
+      const n = Math.floor(dur * sr);
+      for (let i = 0; i < n; i += 1) {
+        const t = i / sr;
+        const env = Math.min(1, i / (0.012 * sr)) * Math.max(0, 1 - i / n);
+        let sample = Math.sin(2 * Math.PI * freq * t);
+        if (wave === "square") sample = sample >= 0 ? 1 : -1;
+        const idx = i0 + i;
+        if (idx < count) {
+          const mixed = pcm[idx] / 32767 + sample * vol * env;
+          pcm[idx] = Math.max(-32767, Math.min(32767, mixed * 32767));
+        }
+      }
+    });
+    const bytes = pcm.byteLength;
+    const buf = new ArrayBuffer(44 + bytes);
+    const view = new DataView(buf);
+    const ascii = (offset, text) => {
+      for (let i = 0; i < text.length; i += 1) view.setUint8(offset + i, text.charCodeAt(i));
+    };
+    ascii(0, "RIFF");
+    view.setUint32(4, 36 + bytes, true);
+    ascii(8, "WAVE");
+    ascii(12, "fmt ");
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, sr, true);
+    view.setUint32(28, sr * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    ascii(36, "data");
+    view.setUint32(40, bytes, true);
+    new Uint8Array(buf, 44).set(new Uint8Array(pcm.buffer));
+    const audio = new Audio(URL.createObjectURL(new Blob([buf], { type: "audio/wav" })));
+    audio.preload = "auto";
+    audio.volume = 1;
+    return audio;
+  }
+
+  function playClip(clip) {
+    try {
+      clip.pause();
+      clip.currentTime = 0;
+      clip.volume = 1;
+      const playing = clip.play();
+      if (playing && playing.catch) playing.catch(() => {});
+    } catch (err) {
+      /* ignore */
+    }
+  }
 
   function context() {
     if (!ctx) {
@@ -15,7 +92,24 @@ const AudioFx = (() => {
     const audio = context();
     if (audio.state === "suspended") audio.resume();
     if (window.speechSynthesis) window.speechSynthesis.getVoices();
-    unlocked = true;
+    if (!clipsArmed) {
+      clipsArmed = true;
+      [ding, buzz].forEach((clip) => {
+        clip.volume = 0.001;
+        const playing = clip.play();
+        if (playing && playing.then) {
+          playing
+            .then(() => {
+              clip.pause();
+              clip.currentTime = 0;
+              clip.volume = 1;
+            })
+            .catch(() => {
+              clip.volume = 1;
+            });
+        }
+      });
+    }
     return audio;
   }
 
@@ -35,13 +129,14 @@ const AudioFx = (() => {
     );
   }
 
-  function speak(text, { lang = "zh-HK", rate = 0.78 } = {}) {
+  function speak(text, { lang = "zh-HK", rate = 0.78, pitch = 1.05 } = {}) {
     stopSpeak();
     if (!window.speechSynthesis) return Promise.resolve();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = lang;
     utter.rate = rate;
-    utter.pitch = 1.05;
+    utter.pitch = pitch;
+    utter.volume = 1;
     const voice = pickVoice();
     if (voice) {
       utter.voice = voice;
@@ -64,33 +159,14 @@ const AudioFx = (() => {
     return speak(words.join("，"), { rate: 0.82 });
   }
 
-  function tone(freq, start, duration, type, gainValue) {
-    const audio = unlock();
-    const osc = audio.createOscillator();
-    const gain = audio.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audio.currentTime + start);
-    gain.gain.setValueAtTime(0.0001, audio.currentTime + start);
-    gain.gain.exponentialRampToValueAtTime(gainValue, audio.currentTime + start + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + start + duration);
-    osc.connect(gain);
-    gain.connect(audio.destination);
-    osc.start(audio.currentTime + start);
-    osc.stop(audio.currentTime + start + duration + 0.02);
-  }
-
   function success() {
-    stopSpeak();
-    tone(587.33, 0, 0.12, "triangle", 0.14);
-    tone(739.99, 0.09, 0.13, "triangle", 0.14);
-    tone(880.0, 0.18, 0.16, "triangle", 0.16);
-    tone(1174.66, 0.3, 0.22, "sine", 0.12);
+    playClip(ding);
+    setTimeout(() => speak("啱喇", { rate: 1.05, pitch: 1.2 }), 80);
   }
 
   function oops() {
-    stopSpeak();
-    tone(311.13, 0, 0.16, "square", 0.08);
-    tone(233.08, 0.12, 0.22, "square", 0.07);
+    playClip(buzz);
+    setTimeout(() => speak("唔啱", { rate: 1.02, pitch: 0.9 }), 80);
   }
 
   if (window.speechSynthesis) {
